@@ -30,25 +30,60 @@
 <body class="bg-slate-50 text-slate-800 font-sans min-h-screen">
 
   <!-- Header -->
-  <header class="bg-red-800 text-white py-6 shadow-lg border-b-4 border-yellow-500">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-4">
-      <div class="flex items-center gap-4">
-        <!-- Chèn logo vào đây -->
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTiYyJ5iX0-1fGJwFekfO0b_CuTjVe2jHVsSVCqyRp0pJIwSqfyer964qAL&s=10" alt="Logo" class="h-16 w-auto object-contain bg-white rounded shadow-sm p-1">
+ <!-- Header Mới - Sang Trọng & Hiện Đại -->
+  <header class="relative bg-gradient-to-r from-red-950 via-red-900 to-red-950 py-6 sm:py-8 shadow-2xl overflow-hidden">
+    
+    <!-- Hiệu ứng ánh sáng nền (Glow) giúp Header có độ sâu -->
+    <div class="absolute top-[-50%] left-1/4 w-96 h-96 bg-red-500 rounded-full mix-blend-screen filter blur-[120px] opacity-20 pointer-events-none"></div>
+    
+    <!-- Đường viền mỏng ánh vàng ở dưới cùng (thay cho viền cục mịch) -->
+    <div class="absolute bottom-0 left-0 w-full h-[3px] bg-gradient-to-r from-yellow-600 via-yellow-400 to-yellow-600 shadow-[0_0_12px_rgba(250,204,21,0.6)]"></div>
+
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+      
+      <!-- Khối Logo và Tiêu đề -->
+      <div class="flex flex-col sm:flex-row items-start sm:items-center gap-5">
         
-        <!-- Khối chứa chữ -->
-        <div>
-          <span class="text-xs uppercase tracking-widest text-yellow-300 font-bold bg-red-900 px-2 py-1 rounded">TÂY BẮC SÀI GÒN</span>
-          <h1 class="text-2xl font-extrabold tracking-tight mt-2 text-yellow-400 uppercase drop-shadow-sm">GIÁM SÁT KỸ THUẬT & HẠ TẦNG HÀNG TUẦN</h1>
-          <p class="text-sm text-red-100 mt-1 font-medium">Mục tiêu: <a href="https://taybacsaigon.com/" target="_blank" class="text-white hover:text-yellow-300 underline transition">taybacsaigon.com</a></p>
+        <!-- Hộp bọc Logo có hiệu ứng nổi 3D nhẹ -->
+        <div class="bg-white p-2.5 rounded-xl shadow-[0_8px_20px_rgba(0,0,0,0.3)] border border-white/20 shrink-0 transform transition duration-500 hover:scale-105">
+          <!-- Đừng quên thay LINK_LOGO_CUA_BAN_O_DAY nhé -->
+          <img src="LINK_LOGO_CUA_BAN_O_DAY" alt="Logo Tây Bắc Sài Gòn" class="h-12 sm:h-14 w-auto object-contain">
+        </div>
+        
+        <!-- Chữ -->
+        <div class="flex flex-col justify-center">
+          <div class="mb-1.5">
+            <!-- Badge tag Tây Bắc Sài Gòn -->
+            <span class="inline-flex items-center px-3 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-widest bg-red-950/80 text-yellow-400 border border-red-800/80 shadow-sm backdrop-blur-sm">
+              <i class="fa-solid fa-shield-halved mr-1.5 text-yellow-500/80"></i> TÂY BẮC SÀI GÒN
+            </span>
+          </div>
+          <!-- Tiêu đề chính mix màu Trắng và Vàng Gradient -->
+          <h1 class="text-xl sm:text-2xl md:text-[26px] font-extrabold tracking-tight text-white uppercase drop-shadow-md leading-tight mb-1.5">
+            Giám Sát Kỹ Thuật <span class="text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-yellow-500">&</span> Hạ Tầng
+          </h1>
+          <div class="flex items-center gap-2 text-sm text-red-200/80 font-medium">
+            <i class="fa-solid fa-link text-xs opacity-70"></i> Mục tiêu: 
+            <a href="https://taybacsaigon.com/" target="_blank" class="text-white hover:text-yellow-400 underline decoration-red-500/50 underline-offset-4 hover:decoration-yellow-400 transition-all duration-300">
+              taybacsaigon.com
+            </a>
+          </div>
         </div>
       </div>
-      <div class="text-right">
-        <div id="last-update" class="text-xs text-red-200 mb-2 font-medium">Cập nhật: Đang tải...</div>
-        <button onclick="fetchData()" class="text-sm bg-yellow-500 hover:bg-yellow-400 text-red-900 font-bold py-2 px-4 rounded shadow transition-all duration-200 transform hover:scale-105">
-          <i class="fa-solid fa-rotate-right mr-1"></i> Làm mới dữ liệu
+
+      <!-- Khối Cập nhật và Nút bấm -->
+      <div class="flex flex-col items-start md:items-end shrink-0 w-full md:w-auto border-t border-red-800/50 md:border-t-0 pt-4 md:pt-0 mt-2 md:mt-0">
+        <!-- Text thời gian cập nhật bọc trong khung kính (glassmorphism) -->
+        <div id="last-update" class="text-[11px] sm:text-xs text-red-200 font-medium mb-3 flex items-center gap-1.5 bg-red-950/40 px-3 py-1.5 rounded-lg border border-red-900/50 shadow-inner">
+          <i class="fa-regular fa-clock text-red-400"></i> Đang kết nối dữ liệu...
+        </div>
+        
+        <!-- Nút bấm Premium Gradient Vàng -->
+        <button onclick="fetchData()" class="group relative inline-flex items-center justify-center gap-2 w-full md:w-auto px-6 py-2.5 text-sm font-bold text-red-950 bg-gradient-to-b from-yellow-300 to-yellow-500 rounded-lg shadow-[0_4px_15px_rgba(234,179,8,0.25)] hover:shadow-[0_6px_20px_rgba(234,179,8,0.4)] hover:from-yellow-200 hover:to-yellow-400 transition-all duration-300 transform hover:-translate-y-0.5 border border-yellow-200">
+          <i class="fa-solid fa-rotate-right group-hover:rotate-180 transition-transform duration-500"></i> Làm mới dữ liệu
         </button>
       </div>
+
     </div>
   </header>
 
