@@ -1,272 +1,232 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Báo Cáo Kỹ Thuật Định Kỳ | Isuzu Tây Bắc Sài Gòn</title>
-
-  <!-- Tailwind CSS & Font Roboto -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TÂY BẮC SÀI GÒN - Giám Sát Kỹ Thuật Website</title>
+  <!-- Tailwind CSS & Chart.js -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
-
-  <!-- Chart.js & Lucide Icons -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="https://unpkg.com/lucide@latest"></script>
-
-  <style>
-    body {
-      background-color: #EEF2F6;
-      color: #0F172A;
-      font-family: 'Roboto', sans-serif;
-    }
-  </style>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 </head>
-<body class="min-h-screen flex flex-col antialiased">
+<body class="bg-slate-50 text-slate-800 font-sans min-h-screen">
 
-  <!-- HEADER NHẬN DIỆN THƯƠNG HIỆU -->
-  <header class="bg-[#8c0000] text-white shadow-md sticky top-0 z-30 border-b border-slate-200">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-      <div class="flex items-center gap-3.5">
-        <div class="flex items-center gap-2.5 bg-white px-3 py-1.5 rounded-xl shadow-sm shrink-0">
-          <img 
-            src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Isuzu_logo.svg/2560px-Isuzu_logo.svg.png" 
-            alt="ISUZU" 
-            class="h-6 w-auto object-contain" 
-          />
-          <div class="h-5 w-[1px] bg-slate-300"></div>
-          <span class="text-[#8c0000] font-black text-xs sm:text-sm tracking-wider uppercase">TÂY BẮC SÀI GÒN</span>
-        </div>
-        <div>
-          <h1 class="text-base sm:text-lg font-black text-white tracking-wide uppercase">
-            HỆ THỐNG GIÁM SÁT KỸ THUẬT & HẠ TẦNG WEB
-          </h1>
-          <p class="text-xs text-yellow-300 font-medium mt-0.5">
-            Mục tiêu: <span class="text-white italic" id="targetDisplay">taybacsaigon.com</span>
-          </p>
-        </div>
+  <!-- Header -->
+  <header class="bg-slate-900 text-white py-6 shadow-md border-b border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-4">
+      <div>
+        <span class="text-xs uppercase tracking-widest text-emerald-400 font-semibold">TÂY BẮC SÀI GÒN</span>
+        <h1 class="text-2xl font-bold tracking-tight">HỆ THỐNG GIÁM SÁT KỸ THUẬT & HẠ TẦNG WEB</h1>
+        <p class="text-sm text-slate-400 mt-1">Mục tiêu: <a href="https://taybacsaigon.com/" target="_blank" class="text-sky-400 hover:underline">taybacsaigon.com</a></p>
       </div>
-
-      <div class="flex items-center gap-2 bg-black/25 p-1.5 rounded-xl border border-white/20 self-start sm:self-auto">
-        <span class="text-xs text-slate-200 pl-2">Cập nhật:</span>
-        <span id="lastUpdated" class="text-xs font-bold text-yellow-400">Đang tải...</span>
-        <button onclick="fetchAuditData()" class="p-1.5 bg-white/10 hover:bg-white text-white hover:text-[#8c0000] rounded-lg transition">
-          <i data-lucide="rotate-cw" class="w-3.5 h-3.5"></i>
+      <div class="text-right">
+        <div id="last-update" class="text-xs text-slate-400">Cập nhật: Đang tải...</div>
+        <button onclick="fetchData()" class="mt-2 text-xs bg-emerald-600 hover:bg-emerald-500 text-white font-medium py-1.5 px-3 rounded shadow transition">
+          <i class="fa-solid fa-rotate-right mr-1"></i> Làm mới dữ liệu
         </button>
       </div>
     </div>
   </header>
 
-  <!-- NỘI DUNG CHÍNH -->
-  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+  <!-- Main Content -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
 
-    <!-- KHỐI 1: 4 CHỈ SỐ SỐNG CÒN CỦA HẠ TẦNG -->
-    <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4" id="kpiContainer">
-      <div class="col-span-4 p-8 text-center text-slate-500 font-bold animate-pulse bg-white rounded-2xl border border-slate-200">
-        ⏳ Đang đồng bộ dữ liệu kỹ thuật từ hệ thống...
-      </div>
-    </section>
-
-    <!-- KHỐI 2: ĐÁNH GIÁ NHANH & TỔNG QUAN TÌNH TRẠNG -->
-    <section class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 sm:p-6">
-      <div class="flex items-center gap-2 pb-3.5 border-b border-slate-100 mb-4">
-        <i data-lucide="shield-alert" class="w-5 h-5 text-[#8c0000]"></i>
-        <h2 class="text-base font-bold text-slate-900">Báo Cáo & Đánh Giá Nhanh Của Chuyên Gia</h2>
-      </div>
-      <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
-        <pre id="reviewText" class="text-xs sm:text-sm text-slate-700 whitespace-pre-wrap font-sans leading-relaxed">Đang tải đánh giá...</pre>
-      </div>
-    </section>
-
-    <!-- KHỐI 3: BIỂU ĐỒ THEO DÕI XU HƯỚNG THEO TUẦN -->
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-      
-      <!-- Biểu đồ Hiệu năng PageSpeed (8 cột) -->
-      <section class="lg:col-span-8 bg-white rounded-2xl border border-slate-200 shadow-sm p-5 sm:p-6">
-        <div class="flex items-center justify-between pb-3.5 border-b border-slate-100 mb-4">
-          <h2 class="text-base font-bold text-slate-900 flex items-center gap-2">
-            <i data-lucide="trending-up" class="w-5 h-5 text-blue-600"></i>
-            Biến Động Điểm Hiệu Năng (Mobile vs Desktop)
-          </h2>
-          <span class="text-xs text-slate-400 font-medium">Thang điểm: 0 - 100</span>
-        </div>
-        <div class="h-64 relative">
-          <canvas id="speedChart"></canvas>
-        </div>
-      </section>
-
-      <!-- Kiểm tra chức năng chuyển đổi & Bảo mật (4 cột) -->
-      <section class="lg:col-span-4 bg-white rounded-2xl border border-slate-200 shadow-sm p-5 sm:p-6 flex flex-col justify-between">
-        <div>
-          <div class="pb-3.5 border-b border-slate-100 mb-4">
-            <h2 class="text-base font-bold text-slate-900 flex items-center gap-2">
-              <i data-lucide="check-circle" class="w-5 h-5 text-emerald-600"></i>
-              Chuyển Đổi & An Toàn Tuần Này
-            </h2>
-          </div>
-          <div class="space-y-3" id="conversionContainer">
-            <!-- Render động danh sách chuyển đổi -->
-          </div>
-        </div>
-      </section>
+    <!-- Loading State -->
+    <div id="loading-state" class="bg-blue-50 border border-blue-200 text-blue-700 px-4 py-3 rounded-lg flex items-center gap-3">
+      <i class="fa-solid fa-spinner fa-spin text-xl"></i>
+      <span>⏳ Đang đồng bộ dữ liệu kỹ thuật từ Google Sheets...</span>
     </div>
 
-    <!-- KHỐI 4: LỊCH SỬ KIỂM TRA ĐỊNH KỲ CHI TIẾT -->
-    <section class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 sm:p-6">
-      <div class="pb-3.5 border-b border-slate-100 mb-4">
-        <h2 class="text-base font-bold text-slate-900 flex items-center gap-2">
-          <i data-lucide="history" class="w-5 h-5 text-slate-700"></i>
-          Lịch Sử Kiểm Định Kỹ Thuật
+    <!-- Error State -->
+    <div id="error-state" class="hidden bg-rose-50 border border-rose-200 text-rose-700 px-4 py-3 rounded-lg flex items-center gap-3">
+      <i class="fa-solid fa-triangle-exclamation text-xl"></i>
+      <span id="error-message">Có lỗi xảy ra khi kết nối API.</span>
+    </div>
+
+    <!-- Khối Đánh giá Chuyên gia & Trạng thái Tổng quan -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      
+      <!-- Đánh giá nhanh chuyên gia -->
+      <div class="lg:col-span-2 bg-white rounded-xl shadow-sm border border-slate-200 p-6 flex flex-col justify-between">
+        <div>
+          <h2 class="text-base font-semibold text-slate-900 flex items-center gap-2 mb-3">
+            <i class="fa-solid fa-user-doctor text-indigo-600"></i> Báo Cáo & Đánh Giá Nhanh Của Chuyên Gia
+          </h2>
+          <div id="expert-review-box" class="p-4 rounded-lg bg-slate-50 border border-slate-200 text-slate-700 text-sm leading-relaxed min-h-[80px]">
+            Đang tải đánh giá...
+          </div>
+        </div>
+        <div class="grid grid-cols-3 gap-4 mt-6 pt-6 border-t border-slate-100">
+          <div>
+            <div class="text-xs text-slate-500">Uptime (7 ngày)</div>
+            <div id="stat-uptime" class="text-xl font-bold text-slate-800">--%</div>
+          </div>
+          <div>
+            <div class="text-xs text-slate-500">Hạn SSL</div>
+            <div id="stat-ssl" class="text-xl font-bold text-slate-800">-- ngày</div>
+          </div>
+          <div>
+            <div class="text-xs text-slate-500">TTFB (Phản hồi)</div>
+            <div id="stat-ttfb" class="text-xl font-bold text-slate-800">-- ms</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- An Toàn & Chuyển Đổi Tuần Này -->
+      <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+        <h2 class="text-base font-semibold text-slate-900 flex items-center gap-2 mb-4">
+          <i class="fa-solid fa-shield-halved text-emerald-600"></i> Chuyển Đổi & An Toàn Tuần Này
         </h2>
+        <ul class="divide-y divide-slate-100 text-sm">
+          <li class="py-2.5 flex justify-between items-center">
+            <span class="text-slate-600">Quét mã độc:</span>
+            <span id="badge-security" class="font-semibold text-slate-400">--</span>
+          </li>
+          <li class="py-2.5 flex justify-between items-center">
+            <span class="text-slate-600">Sao lưu (Backup):</span>
+            <span id="badge-backup" class="font-semibold text-slate-400">--</span>
+          </li>
+          <li class="py-2.5 flex justify-between items-center">
+            <span class="text-slate-600">Form Báo Giá:</span>
+            <span id="badge-form" class="font-semibold text-slate-400">--</span>
+          </li>
+          <li class="py-2.5 flex justify-between items-center">
+            <span class="text-slate-600">Nút Gọi & Chat:</span>
+            <span id="badge-call-chat" class="font-semibold text-slate-400">--</span>
+          </li>
+          <li class="py-2.5 flex justify-between items-center">
+            <span class="text-slate-600">Sitemap & Robots:</span>
+            <span id="badge-seo-files" class="font-semibold text-slate-400">--</span>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- Biểu đồ Hiệu năng PageSpeed -->
+    <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+      <div class="flex flex-col sm:flex-row justify-between sm:items-center mb-4 gap-2">
+        <h2 class="text-base font-semibold text-slate-900 flex items-center gap-2">
+          <i class="fa-solid fa-chart-line text-sky-600"></i> Biến Động Điểm Hiệu Năng (Mobile vs Desktop)
+        </h2>
+        <span class="text-xs text-slate-500">Thang điểm: 0 - 100</span>
+      </div>
+      <div class="h-64">
+        <canvas id="speedChart"></canvas>
+      </div>
+    </div>
+
+    <!-- Bảng Lịch Sử Kiểm Định Kỹ Thuật -->
+    <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+      <div class="px-6 py-4 border-b border-slate-200">
+        <h2 class="text-base font-semibold text-slate-900">Lịch Sử Kiểm Định Kỹ Thuật</h2>
       </div>
       <div class="overflow-x-auto">
-        <table class="w-full text-left text-xs sm:text-sm min-w-[700px]">
-          <thead>
-            <tr class="bg-slate-50 text-slate-700 font-bold border-y border-slate-200 uppercase text-xs">
-              <th class="py-2.5 px-3">Ngày quét</th>
-              <th class="py-2.5 px-3 text-center">Uptime (7d)</th>
-              <th class="py-2.5 px-3 text-center">TTFB</th>
-              <th class="py-2.5 px-3 text-center">Mobile</th>
-              <th class="py-2.5 px-3 text-center">Desktop</th>
-              <th class="py-2.5 px-3 text-center">LCP / INP / CLS</th>
-              <th class="py-2.5 px-3 text-center">SSL còn lại</th>
+        <table class="w-full text-left text-sm text-slate-600">
+          <thead class="bg-slate-50 text-xs uppercase text-slate-500 border-b border-slate-200">
+            <tr>
+              <th class="px-4 py-3">Ngày quét</th>
+              <th class="px-4 py-3">Uptime (7d)</th>
+              <th class="px-4 py-3">TTFB</th>
+              <th class="px-4 py-3">Mobile</th>
+              <th class="px-4 py-3">Desktop</th>
+              <th class="px-4 py-3">LCP / INP / CLS</th>
+              <th class="px-4 py-3">SSL còn lại</th>
             </tr>
           </thead>
-          <tbody id="historyTableBody" class="divide-y divide-slate-100">
-            <!-- Render lịch sử -->
+          <tbody id="history-table-body" class="divide-y divide-slate-100">
+            <tr>
+              <td colspan="7" class="text-center py-6 text-slate-400">Đang đồng bộ dữ liệu...</td>
+            </tr>
           </tbody>
         </table>
       </div>
-    </section>
+    </div>
 
   </main>
 
-  <footer class="bg-white border-t border-slate-200 mt-auto py-5 text-center text-xs text-slate-500">
-    <p>© 2026 ISUZU TÂY BẮC SÀI GÒN — Hệ thống Báo cáo Kỹ thuật & Hạ tầng Định kỳ</p>
+  <!-- Footer -->
+  <footer class="text-center py-6 text-xs text-slate-400 border-t border-slate-200 mt-12">
+    © 2026 ISUZU TÂY BẮC SÀI GÒN — Hệ thống Báo cáo Kỹ thuật & Hạ tầng Định kỳ
   </footer>
 
+  <!-- SCRIPT KẾT NỐI API VÀ HIỂN THỊ DỮ LIỆU -->
   <script>
     // =========================================================================
-    // DÁN ĐƯỜNG DẪN WEB APP TỪ APPS SCRIPT CỦA BẠN VÀO BIẾN DƯỚI ĐÂY:
+    // DÁN ĐƯỜNG DẪN WEB APP APPS SCRIPT (CÓ ĐUÔI /exec) CỦA BẠN VÀO ĐÂY:
     // =========================================================================
-    const API_URL = "https://script.google.com/macros/s/AKfycby7Pz4OEqslUFC9PpqrowmXv1aD6AnB7RUAZ2LLu7MePo05JaXIsS8d05NcS5zauLm5kg/exec";
+    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbydvFv9sD16Udwwk6GN4mKUO2_AzdYPPCZCgKzOZYN0XU9_po5WkM7ON6JXlOSEdcNbMQ/exec";
 
     let chartInstance = null;
 
-    async function fetchAuditData() {
-      try {
-        const response = await fetch(API_URL);
-        const data = await response.json();
-        
-        document.getElementById("lastUpdated").innerText = data.updatedAt || "Vừa xong";
-        renderKPIs(data.latest);
-        renderReview(data.latest);
-        renderConversions(data.latest);
-        renderChart(data.records);
-        renderHistory(data.records);
+    async function fetchData() {
+      const loadingState = document.getElementById("loading-state");
+      const errorState = document.getElementById("error-state");
+      const errorMsg = document.getElementById("error-message");
 
-        lucide.createIcons();
+      loadingState.classList.remove("hidden");
+      errorState.classList.add("hidden");
+
+      if (!APPS_SCRIPT_URL || APPS_SCRIPT_URL.includes("DÁN_URL")) {
+        loadingState.classList.add("hidden");
+        errorState.classList.remove("hidden");
+        errorMsg.innerHTML = "<b>Chưa cấu hình URL API:</b> Vui lòng mở file HTML này và thay giá trị biến <code>APPS_SCRIPT_URL</code> bằng link Web App triển khai từ Apps Script.";
+        return;
+      }
+
+      try {
+        const res = await fetch(APPS_SCRIPT_URL);
+        const data = await res.json();
+
+        loadingState.classList.add("hidden");
+        renderDashboard(data);
       } catch (err) {
-        console.error("Lỗi khi tải dữ liệu:", err);
-        document.getElementById("kpiContainer").innerHTML = `
-          <div class="col-span-4 p-8 text-center text-rose-600 font-bold bg-white rounded-2xl border border-slate-200">
-            ❌ Không thể kết nối tới Google Sheets API. Vui lòng kiểm tra lại URL Web App và quyền Anyone!
-          </div>
-        `;
+        loadingState.classList.add("hidden");
+        errorState.classList.remove("hidden");
+        errorMsg.innerText = "Lỗi kết nối API: " + err.message + " (Hãy đảm bảo Web App đã chọn 'Anyone' có quyền truy cập).";
       }
     }
 
-    function renderKPIs(latest) {
-      if (!latest) return;
-      const container = document.getElementById("kpiContainer");
+    function renderDashboard(data) {
+      if (!data || !data.records || data.records.length === 0) {
+        document.getElementById("expert-review-box").innerText = "Chưa tìm thấy bản ghi kiểm tra nào.";
+        return;
+      }
 
-      const kpis = [
-        {
-          label: "Uptime 7 Ngày",
-          value: `${latest.uptime}%`,
-          sub: latest.uptime >= 99.9 ? "Rất ổn định" : "Cần kiểm tra máy chủ",
-          icon: "activity",
-          color: latest.uptime >= 99.9 ? "text-emerald-600" : "text-rose-600",
-          bg: latest.uptime >= 99.9 ? "bg-emerald-50" : "bg-rose-50"
-        },
-        {
-          label: "Phản Hồi Máy Chủ (TTFB)",
-          value: `${latest.ttfb} ms`,
-          sub: latest.ttfb <= 600 ? "Phản hồi nhanh" : "Phản hồi chậm (>600ms)",
-          icon: "zap",
-          color: latest.ttfb <= 600 ? "text-blue-600" : "text-amber-600",
-          bg: latest.ttfb <= 600 ? "bg-blue-50" : "bg-amber-50"
-        },
-        {
-          label: "Hiệu Năng Mobile",
-          value: `${latest.mobSpeed} / 100`,
-          sub: `Desktop: ${latest.deskSpeed}/100`,
-          icon: "smartphone",
-          color: latest.mobSpeed >= 70 ? "text-emerald-600" : "text-amber-600",
-          bg: latest.mobSpeed >= 70 ? "bg-emerald-50" : "bg-amber-50"
-        },
-        {
-          label: "Thời Hạn SSL",
-          value: `${latest.sslDays} ngày`,
-          sub: latest.sslDays > 30 ? "An toàn" : "Cần gia hạn sớm",
-          icon: "lock",
-          color: latest.sslDays > 30 ? "text-[#8c0000]" : "text-rose-600",
-          bg: "bg-red-50"
-        }
-      ];
+      document.getElementById("last-update").innerText = "Cập nhật: " + (data.updatedAt || "Vừa xong");
+      const latest = data.latest || data.records[data.records.length - 1];
 
-      container.innerHTML = kpis.map(k => `
-        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between">
-          <div class="flex items-center justify-between">
-            <span class="text-xs font-bold uppercase tracking-wider text-slate-500">${k.label}</span>
-            <div class="p-2 rounded-xl ${k.bg} ${k.color}">
-              <i data-lucide="${k.icon}" class="w-5 h-5"></i>
-            </div>
-          </div>
-          <div class="mt-3">
-            <div class="text-2xl font-black text-slate-900 tracking-tight">${k.value}</div>
-            <p class="text-xs text-slate-500 mt-1 font-medium">${k.sub}</p>
-          </div>
-        </div>
-      `).join('');
-    }
+      // 1. Render Thông số & Nhận xét mới nhất
+      const reviewBox = document.getElementById("expert-review-box");
+      reviewBox.innerText = latest.review || "Hệ thống đang hoạt động bình thường.";
+      if ((latest.review || "").includes("NGUY CẤP")) {
+        reviewBox.className = "p-4 rounded-lg bg-rose-50 border border-rose-200 text-rose-800 text-sm leading-relaxed font-medium";
+      } else {
+        reviewBox.className = "p-4 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-800 text-sm leading-relaxed";
+      }
 
-    function renderReview(latest) {
-      const el = document.getElementById("reviewText");
-      el.innerText = latest && latest.review ? latest.review : "Chưa có nhận xét cho tuần này.";
-    }
+      document.getElementById("stat-uptime").innerText = (latest.uptime || 0) + "%";
+      document.getElementById("stat-ssl").innerText = (latest.sslDays || 0) + " ngày";
+      document.getElementById("stat-ttfb").innerText = (latest.ttfb || 0) + " ms";
 
-    function renderConversions(latest) {
-      if (!latest) return;
-      const items = [
-        { label: "Form báo giá", val: latest.formTest },
-        { label: "Nút gọi Hotline", val: latest.callTest },
-        { label: "Widget Chat", val: latest.chatTest },
-        { label: "Bản sao lưu (Backup)", val: latest.backup },
-        { label: "Bảo mật & Mã độc", val: latest.security }
-      ];
+      // 2. Các badge an toàn & chuyển đổi
+      const badgeFormat = (val) => val === "PASS" || val === "OK" 
+        ? `<span class="text-emerald-600 font-semibold"><i class="fa-solid fa-circle-check"></i> ${val}</span>`
+        : `<span class="text-rose-600 font-semibold"><i class="fa-solid fa-circle-xmark"></i> ${val}</span>`;
 
-      const isPass = (v) => ["pass", "ok", "đạt", "tốt", "có", "sạch", "đã backup"].includes((v || "").toLowerCase());
+      document.getElementById("badge-security").innerHTML = badgeFormat(latest.security);
+      document.getElementById("badge-backup").innerHTML = badgeFormat(latest.backup);
+      document.getElementById("badge-form").innerHTML = badgeFormat(latest.formTest);
+      document.getElementById("badge-call-chat").innerHTML = badgeFormat(latest.callTest) + " / " + badgeFormat(latest.chatTest);
+      document.getElementById("badge-seo-files").innerHTML = badgeFormat(latest.sitemap) + " / " + badgeFormat(latest.robots);
 
-      const container = document.getElementById("conversionContainer");
-      container.innerHTML = items.map(item => `
-        <div class="flex items-center justify-between p-3 bg-slate-50 rounded-xl border border-slate-200">
-          <span class="text-xs font-bold text-slate-700">${item.label}</span>
-          <span class="px-2.5 py-0.5 rounded-full text-xs font-bold ${isPass(item.val) ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'}">
-            ${item.val || 'Chưa test'}
-          </span>
-        </div>
-      `).join('');
-    }
+      // 3. Biểu đồ Chart.js
+      const labels = data.records.map(r => r.date);
+      const mobData = data.records.map(r => r.mobSpeed);
+      const deskData = data.records.map(r => r.deskSpeed);
 
-    function renderChart(records) {
-      const ctx = document.getElementById("speedChart").getContext("2d");
+      const ctx = document.getElementById('speedChart').getContext('2d');
       if (chartInstance) chartInstance.destroy();
-
-      const labels = records.map(r => r.date);
-      const mobScores = records.map(r => r.mobSpeed);
-      const deskScores = records.map(r => r.deskSpeed);
 
       chartInstance = new Chart(ctx, {
         type: 'line',
@@ -274,60 +234,54 @@
           labels: labels,
           datasets: [
             {
-              label: 'Điểm Mobile',
-              data: mobScores,
-              borderColor: '#8c0000',
-              backgroundColor: 'rgba(140, 0, 0, 0.08)',
-              borderWidth: 2.5,
-              pointBackgroundColor: '#8c0000',
-              pointRadius: 4,
+              label: 'Mobile Speed',
+              data: mobData,
+              borderColor: '#0284c7',
+              backgroundColor: 'rgba(2, 132, 199, 0.1)',
               tension: 0.3,
               fill: true
             },
             {
-              label: 'Điểm Desktop',
-              data: deskScores,
-              borderColor: '#0A2540',
-              borderWidth: 2,
-              borderDash: [4, 4],
-              pointBackgroundColor: '#0A2540',
-              pointRadius: 4,
-              tension: 0.3
+              label: 'Desktop Speed',
+              data: deskData,
+              borderColor: '#10b981',
+              backgroundColor: 'rgba(16, 185, 129, 0.1)',
+              tension: 0.3,
+              fill: true
             }
           ]
         },
         options: {
           responsive: true,
           maintainAspectRatio: false,
-          plugins: {
-            legend: { position: 'bottom' }
-          },
           scales: {
-            y: { beginAtZero: true, max: 100 },
-            x: { grid: { display: false } }
+            y: { min: 0, max: 100 }
           }
         }
       });
+
+      // 4. Render Bảng Lịch sử
+      const tbody = document.getElementById("history-table-body");
+      tbody.innerHTML = "";
+      // Đảo ngược để xem ngày mới nhất lên đầu
+      [...data.records].reverse().forEach(row => {
+        const tr = document.createElement("tr");
+        tr.className = "hover:bg-slate-50 transition";
+        tr.innerHTML = `
+          <td class="px-4 py-3 font-medium text-slate-800">${row.date}</td>
+          <td class="px-4 py-3">${row.uptime}%</td>
+          <td class="px-4 py-3">${row.ttfb} ms</td>
+          <td class="px-4 py-3 font-semibold ${row.mobSpeed < 50 ? 'text-rose-600' : 'text-slate-700'}">${row.mobSpeed}</td>
+          <td class="px-4 py-3 font-semibold ${row.deskSpeed < 70 ? 'text-amber-600' : 'text-slate-700'}">${row.deskSpeed}</td>
+          <td class="px-4 py-3 text-xs text-slate-500">${row.lcp}s / ${row.inp}ms / ${row.cls}</td>
+          <td class="px-4 py-3">${row.sslDays} ngày</td>
+        `;
+        tbody.appendChild(tr);
+      });
     }
 
-    function renderHistory(records) {
-      const tbody = document.getElementById("historyTableBody");
-      const reversed = [...records].reverse();
-
-      tbody.innerHTML = reversed.map(r => `
-        <tr class="hover:bg-slate-50 transition">
-          <td class="py-2.5 px-3 font-bold text-slate-800 whitespace-nowrap">${r.date}</td>
-          <td class="py-2.5 px-3 text-center font-semibold text-emerald-600">${r.uptime}%</td>
-          <td class="py-2.5 px-3 text-center text-slate-600">${r.ttfb} ms</td>
-          <td class="py-2.5 px-3 text-center font-bold ${r.mobSpeed >= 70 ? 'text-emerald-600' : 'text-amber-600'}">${r.mobSpeed}</td>
-          <td class="py-2.5 px-3 text-center font-bold text-blue-800">${r.deskSpeed}</td>
-          <td class="py-2.5 px-3 text-center text-xs text-slate-500">${r.lcp}s / ${r.inp}ms / ${r.cls}</td>
-          <td class="py-2.5 px-3 text-center font-bold text-slate-700">${r.sslDays} ngày</td>
-        </tr>
-      `).join('');
-    }
-
-    document.addEventListener("DOMContentLoaded", fetchAuditData);
+    // Tự động tải dữ liệu khi trang mở
+    window.onload = fetchData;
   </script>
 </body>
 </html>
