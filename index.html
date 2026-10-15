@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>TÂY BẮC SÀI GÒN - BẢNG ĐIỀU KHIỂN SỨC KHỎE WEBSITE</title>
   
-  <!-- Font Montserrat mang lại cảm giác mạnh mẽ, sang trọng -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -26,14 +25,11 @@
 </head>
 <body class="bg-slate-50 text-slate-800 font-sans min-h-screen antialiased">
 
-  <!-- HEADER SANG TRỌNG (ĐỎ - VÀNG - TRẮNG) -->
+  <!-- HEADER -->
   <header class="relative bg-gradient-to-r from-red-950 via-red-900 to-red-950 py-6 sm:py-8 shadow-xl overflow-hidden border-b-4 border-yellow-500">
-    <!-- Hiệu ứng ánh sáng nền -->
     <div class="absolute top-[-50%] left-1/4 w-96 h-96 bg-red-500 rounded-full mix-blend-screen filter blur-[120px] opacity-20 pointer-events-none"></div>
-
     <div class="relative max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
       
-      <!-- Khối Logo và Tiêu đề -->
       <div class="flex flex-col sm:flex-row items-start sm:items-center gap-5">
         <div class="bg-white p-2.5 rounded-xl shadow-[0_8px_20px_rgba(0,0,0,0.3)] border border-white/20 shrink-0 transform transition duration-500 hover:scale-105">
           <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTiYyJ5iX0-1fGJwFekfO0b_CuTjVe2jHVsSVCqyRp0pJIwSqfyer964qAL&s=10" alt="Logo Tây Bắc Sài Gòn" class="h-12 w-auto object-contain">
@@ -49,12 +45,11 @@
             System Health <span class="text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-yellow-500">Dashboard</span>
           </h1>
           <div class="flex items-center gap-2 text-sm text-red-100 mt-1 font-medium" id="targetUrlText">
-            <i class="fa-solid fa-link text-xs opacity-70"></i> Mục tiêu: Đang tải...
+            <i class="fa-solid fa-link text-xs opacity-70"></i> Mục tiêu: Đang kết nối...
           </div>
         </div>
       </div>
 
-      <!-- Khối Cập nhật và Nút bấm -->
       <div class="flex flex-col items-start md:items-end shrink-0 w-full md:w-auto">
         <div id="lastUpdatedText" class="text-xs text-red-200 font-medium mb-3 flex items-center gap-1.5 bg-red-950/40 px-3 py-1.5 rounded border border-red-800 shadow-inner">
           <i class="fa-regular fa-clock text-yellow-400"></i> Cập nhật: --
@@ -70,8 +65,8 @@
 
   <main class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
 
-    <!-- ALERT BANNER -->
-    <div id="alertBanner" class="hidden rounded-lg p-4 border shadow-sm flex items-start gap-3">
+    <!-- CẢNH BÁO LỖI API -->
+    <div id="alertBanner" class="hidden rounded-lg p-4 border shadow-sm flex items-start gap-3 mb-6">
       <div class="mt-0.5" id="alertIconBox"></div>
       <div>
         <h4 id="alertTitle" class="text-sm font-bold uppercase tracking-tight"></h4>
@@ -79,15 +74,15 @@
       </div>
     </div>
 
-    <!-- Ô NHẬN XÉT TỰ ĐỘNG -->
-    <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden" id="reviewContainer">
+    <!-- Ô NHẬN XÉT TỪ SHEET -->
+    <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden hidden" id="reviewContainer">
       <div class="px-5 py-3 border-b border-slate-200 bg-slate-50 flex items-center gap-2">
         <i class="fa-solid fa-user-doctor text-red-700"></i>
-        <h2 class="text-sm font-bold text-slate-800 uppercase tracking-wider">Đánh Giá Nhanh Từ Hệ Thống</h2>
+        <h2 class="text-sm font-bold text-slate-800 uppercase tracking-wider">Đánh Giá Nhanh Từ Chuyên Gia</h2>
       </div>
       <div class="p-5">
         <div id="expertReviewBox" class="p-4 rounded-lg text-sm font-semibold leading-relaxed shadow-inner border-l-4">
-          <!-- Nội dung nhận xét sẽ đổ vào đây -->
+          <!-- Dữ liệu nhận xét thật -->
         </div>
       </div>
     </div>
@@ -106,7 +101,7 @@
             <h3 class="text-4xl font-extrabold tracking-tight" id="kpiUptime">--</h3>
             <span class="text-sm font-bold" id="kpiUptimeUnit">%</span>
           </div>
-          <p class="text-xs mt-1.5 font-semibold" id="kpiUptimeSub">Đang đánh giá...</p>
+          <p class="text-xs mt-1.5 font-semibold" id="kpiUptimeSub">Đang lấy dữ liệu...</p>
         </div>
       </div>
 
@@ -121,7 +116,7 @@
             <h3 class="text-4xl font-extrabold tracking-tight" id="kpiTtfb">--</h3>
             <span class="text-sm font-bold" id="kpiTtfbUnit">ms</span>
           </div>
-          <p class="text-xs mt-1.5 font-semibold" id="kpiTtfbSub">Đang đánh giá...</p>
+          <p class="text-xs mt-1.5 font-semibold" id="kpiTtfbSub">Đang lấy dữ liệu...</p>
         </div>
       </div>
 
@@ -136,7 +131,7 @@
             <h3 class="text-4xl font-extrabold tracking-tight" id="kpiSsl">--</h3>
             <span class="text-sm font-bold" id="kpiSslUnit">ngày</span>
           </div>
-          <p class="text-xs mt-1.5 font-semibold" id="kpiSslSub">Đang đánh giá...</p>
+          <p class="text-xs mt-1.5 font-semibold" id="kpiSslSub">Đang lấy dữ liệu...</p>
         </div>
       </div>
 
@@ -196,7 +191,7 @@
             </tr>
           </thead>
           <tbody id="historyTableBody" class="divide-y divide-slate-100 bg-white font-medium">
-            <tr><td colspan="8" class="text-center py-10 text-slate-400">Đang đồng bộ dữ liệu từ hệ thống...</td></tr>
+            <tr><td colspan="8" class="text-center py-10 text-slate-400">Đang đồng bộ dữ liệu chuẩn từ Google Sheet...</td></tr>
           </tbody>
         </table>
       </div>
@@ -205,7 +200,7 @@
   </main>
 
   <script>
-    // Link API chính thức
+    // LINK API TRỰC TIẾP TỪ GOOGLE SHEET CỦA BẠN
     const API_URL = "https://script.google.com/macros/s/AKfycbydvFv9sD16Udwwk6GN4mKUO2_AzdYPPCZCgKzOZYN0XU9_po5WkM7ON6JXlOSEdcNbMQ/exec";
 
     let uptimeChartInstance = null;
@@ -216,32 +211,60 @@
     async function fetchData() {
       try {
         const res = await fetch(API_URL);
+        
+        // KIỂM TRA LỖI QUYỀN TRUY CẬP (CORS / CHƯA PUBLISH ANYONE)
+        if (res.redirected && res.url.includes("ServiceLogin")) {
+          throw new Error("Google chặn kết nối. Hãy mở file Apps Script -> Chọn Deploy -> New Deployment -> Mục Who has access, bắt buộc chọn 'Anyone'.");
+        }
+        
         const data = await res.json();
+        
+        // Kiểm tra cấu trúc dữ liệu trả về
+        if (!data || !data.records) {
+           throw new Error("Không tìm thấy dữ liệu hợp lệ trong Sheet. Hãy kiểm tra lại code Apps Script.");
+        }
+
         renderDashboard(data);
+
       } catch (err) {
-        console.error(err);
-        document.getElementById("historyTableBody").innerHTML = `<tr><td colspan="8" class="text-center py-10 text-rose-600 font-bold">Lỗi kết nối dữ liệu. Vui lòng thử lại sau.</td></tr>`;
+        console.error("Lỗi lấy dữ liệu thật:", err);
+        showGlobalError("Không thể tải dữ liệu từ Sheet. <br>Chi tiết: <b>" + err.message + "</b>");
+        // Hiển thị lỗi ra bảng, KHÔNG HIỂN THỊ DỮ LIỆU GIẢ
+        document.getElementById("historyTableBody").innerHTML = `<tr><td colspan="8" class="text-center py-10 text-rose-600 font-bold bg-rose-50"><i class="fa-solid fa-triangle-exclamation mr-2"></i> Không có dữ liệu để hiển thị do kết nối Google Sheet thất bại.</td></tr>`;
       }
     }
 
-    function renderDashboard(data) {
-      if (!data || !data.records || data.records.length === 0) return;
+    // Hiển thị khung báo lỗi lên màn hình
+    function showGlobalError(message) {
+      const banner = document.getElementById("alertBanner");
+      banner.classList.remove("hidden");
+      banner.className = "p-4 rounded-lg border-l-4 border-l-rose-600 bg-rose-50 text-rose-900 shadow-sm flex items-start gap-3 mb-6";
+      document.getElementById("alertIconBox").innerHTML = `<i class="fa-solid fa-triangle-exclamation text-rose-600 text-lg"></i>`;
+      document.getElementById("alertTitle").innerText = "LỖI KẾT NỐI API";
+      document.getElementById("alertDesc").innerHTML = message;
+    }
 
-      document.getElementById("targetUrlText").innerText = "Website: " + (data.targetUrl || "taybacsaigon.com");
+    function renderDashboard(data) {
+      if (data.records.length === 0) {
+        document.getElementById("historyTableBody").innerHTML = `<tr><td colspan="8" class="text-center py-10 text-slate-500">Trang tính (Sheet) đang trống, chưa có dữ liệu nào.</td></tr>`;
+        return;
+      }
+
+      document.getElementById("targetUrlText").innerHTML = `<i class="fa-solid fa-link text-xs opacity-70"></i> Mục tiêu: <a href="https://${data.targetUrl || "taybacsaigon.com"}" target="_blank" class="hover:underline text-white">${data.targetUrl || "taybacsaigon.com"}</a>`;
       document.getElementById("lastUpdatedText").innerHTML = `<i class="fa-regular fa-clock text-yellow-400"></i> Cập nhật: ${data.updatedAt || new Date().toLocaleTimeString("vi-VN")}`;
 
       const latest = data.latest || data.records[data.records.length - 1];
 
       // ĐỔ DỮ LIỆU VÀO Ô NHẬN XÉT TỰ ĐỘNG
       const reviewBox = document.getElementById("expertReviewBox");
-      document.getElementById("reviewContainer").classList.remove("hidden"); // Đảm bảo luôn hiển thị
+      document.getElementById("reviewContainer").classList.remove("hidden");
 
-      let reviewText = latest.review || "Hệ thống hoạt động ổn định, không có cảnh báo mới.";
+      let reviewText = latest.review || "Chưa có nhận xét.";
       
       if (reviewText.includes("NGUY CẤP")) {
         reviewBox.className = "p-4 rounded-lg text-sm font-bold leading-relaxed shadow-inner border-l-4 border-l-rose-600 bg-rose-50 text-rose-900";
         reviewBox.innerHTML = `<i class="fa-solid fa-triangle-exclamation text-rose-600 mr-2 text-lg"></i>` + reviewText;
-      } else if (reviewText.includes("CẦN TỐI ƯU")) {
+      } else if (reviewText.includes("CẦN TỐI ƯU") || reviewText.includes("LƯU Ý")) {
         reviewBox.className = "p-4 rounded-lg text-sm font-bold leading-relaxed shadow-inner border-l-4 border-l-yellow-500 bg-yellow-50 text-yellow-900";
         reviewBox.innerHTML = `<i class="fa-solid fa-circle-exclamation text-yellow-600 mr-2 text-lg"></i>` + reviewText;
       } else {
@@ -249,8 +272,8 @@
         reviewBox.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-600 mr-2 text-lg"></i>` + reviewText;
       }
 
-      // Logic KPI
-      const uVal = parseFloat(latest.uptime);
+      // CẬP NHẬT CHỈ SỐ KPI CHÍNH
+      const uVal = parseFloat(latest.uptime || 0);
       document.getElementById("kpiUptime").innerText = uVal;
       if (uVal >= 99.9) {
         document.getElementById("kpiUptime").className = "text-4xl font-extrabold tracking-tight text-emerald-600";
@@ -262,6 +285,119 @@
         document.getElementById("kpiUptimeSub").innerHTML = '<span class="text-rose-600"><i class="fa-solid fa-circle-exclamation text-[10px] mr-1"></i>Có gián đoạn mạng</span>';
       }
 
-      const tVal = parseFloat(latest.ttfb);
+      const tVal = parseFloat(latest.ttfb || 0);
       document.getElementById("kpiTtfb").innerText = tVal;
-      if (tVal <= 800) {
+      if (tVal <= 800 && tVal > 0) {
+        document.getElementById("kpiTtfb").className = "text-4xl font-extrabold tracking-tight text-emerald-600";
+        document.getElementById("kpiTtfbUnit").className = "text-sm font-bold text-emerald-600";
+        document.getElementById("kpiTtfbSub").innerHTML = '<span class="text-emerald-600"><i class="fa-solid fa-circle-check text-[10px] mr-1"></i>Tốc độ phản hồi đạt chuẩn</span>';
+      } else {
+        document.getElementById("kpiTtfb").className = "text-4xl font-extrabold tracking-tight text-rose-600";
+        document.getElementById("kpiTtfbUnit").className = "text-sm font-bold text-rose-600";
+        document.getElementById("kpiTtfbSub").innerHTML = '<span class="text-rose-600"><i class="fa-solid fa-arrow-trend-up text-[10px] mr-1"></i>Phản hồi máy chủ chậm</span>';
+      }
+
+      const sVal = parseInt(latest.sslDays || 0);
+      document.getElementById("kpiSsl").innerText = sVal;
+      if (sVal > 15) {
+        document.getElementById("kpiSsl").className = "text-4xl font-extrabold tracking-tight text-emerald-600";
+        document.getElementById("kpiSslUnit").className = "text-sm font-bold text-emerald-600";
+        document.getElementById("kpiSslSub").innerHTML = '<span class="text-emerald-600"><i class="fa-solid fa-circle-check text-[10px] mr-1"></i>Bảo mật an toàn</span>';
+      } else {
+        document.getElementById("kpiSsl").className = "text-4xl font-extrabold tracking-tight text-rose-600";
+        document.getElementById("kpiSslUnit").className = "text-sm font-bold text-rose-600";
+        document.getElementById("kpiSslSub").innerHTML = '<span class="text-rose-600"><i class="fa-solid fa-clock text-[10px] mr-1"></i>Cần gia hạn gấp</span>';
+      }
+
+      const isConvOk = latest.formTest === "OK" && latest.callTest === "OK" && latest.chatTest === "OK";
+      const isSecOk = latest.security === "OK" && latest.backup === "OK";
+      const isSeoOk = latest.sitemap === "OK" && latest.robots === "OK";
+
+      document.getElementById("kpiConversion").innerHTML = isConvOk ? `<span class="text-emerald-600"><i class="fa-solid fa-check"></i> Đạt</span>` : `<span class="text-rose-600"><i class="fa-solid fa-xmark"></i> Lỗi</span>`;
+      document.getElementById("kpiSecurity").innerHTML = isSecOk ? `<span class="text-emerald-600"><i class="fa-solid fa-check"></i> An toàn</span>` : `<span class="text-rose-600"><i class="fa-solid fa-xmark"></i> Cảnh báo</span>`;
+      document.getElementById("kpiSeo").innerHTML = isSeoOk ? `<span class="text-emerald-600"><i class="fa-solid fa-check"></i> Ổn định</span>` : `<span class="text-rose-600"><i class="fa-solid fa-xmark"></i> Lỗi</span>`;
+
+      // Render Charts và Table
+      renderCharts(data.records);
+      renderTable(data.records);
+    }
+
+    function renderCharts(records) {
+      const labels = records.map(r => r.date);
+      const uptimeData = records.map(r => r.uptime);
+      const ttfbData = records.map(r => r.ttfb);
+
+      const ctxUptime = document.getElementById('uptimeChart').getContext('2d');
+      if (uptimeChartInstance) uptimeChartInstance.destroy();
+      uptimeChartInstance = new Chart(ctxUptime, {
+        type: 'line',
+        data: {
+          labels: labels,
+          datasets: [{
+            data: uptimeData, borderColor: '#b91c1c', backgroundColor: 'rgba(185, 28, 28, 0.05)',
+            borderWidth: 3, pointRadius: 4, pointBackgroundColor: '#fff', pointBorderColor: '#b91c1c', fill: true, tension: 0.3
+          }]
+        },
+        options: { 
+          responsive: true, 
+          maintainAspectRatio: false, 
+          plugins: { legend: { display: false } }, 
+          scales: { 
+            x: { grid: { display: false } },
+            y: { max: 100 } // KHÓA MỨC TỐI ĐA LÀ 100%
+          } 
+        }
+      });
+
+      const ctxTtfb = document.getElementById('ttfbChart').getContext('2d');
+      if (ttfbChartInstance) ttfbChartInstance.destroy();
+      ttfbChartInstance = new Chart(ctxTtfb, {
+        type: 'line',
+        data: {
+          labels: labels,
+          datasets: [{
+            data: ttfbData, borderColor: '#eab308', backgroundColor: 'rgba(234, 179, 8, 0.05)',
+            borderWidth: 3, pointRadius: 4, pointBackgroundColor: '#fff', pointBorderColor: '#eab308', fill: true, tension: 0.3
+          }]
+        },
+        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { grid: { display: false } } } }
+      });
+    }
+
+    function renderTable(records) {
+      const tbody = document.getElementById("historyTableBody");
+      
+      // Xóa thông báo chờ / lỗi đi
+      tbody.innerHTML = "";
+      
+      const reversed = [...records].reverse();
+
+      reversed.forEach(r => {
+        const tr = document.createElement("tr");
+        tr.className = "hover:bg-red-50/50 transition-colors border-b border-slate-100 last:border-0";
+        tr.innerHTML = `
+          <td class="py-4 px-5 font-bold text-slate-900 whitespace-nowrap">${r.date || '--'}</td>
+          <td class="py-4 px-5 font-bold ${r.uptime < 99.9 ? 'text-rose-600' : 'text-emerald-600'}">${r.uptime || 0}%</td>
+          <td class="py-4 px-5 font-bold ${r.ttfb > 800 ? 'text-rose-600' : 'text-slate-700'}">${r.ttfb || 0} <span class="text-xs font-medium">ms</span></td>
+          <td class="py-4 px-5 font-bold ${r.sslDays <= 15 ? 'text-rose-600' : 'text-slate-700'}">${r.sslDays || 0} <span class="text-xs font-medium">ngày</span></td>
+          <td class="py-4 px-5 text-center"><div class="flex items-center justify-center gap-1.5">${getDot(r.formTest, "Form")} ${getDot(r.callTest, "Call")} ${getDot(r.chatTest, "Chat")}</div></td>
+          <td class="py-4 px-5 text-center"><div class="flex items-center justify-center gap-1.5">${getDot(r.sitemap, "Sitemap")} ${getDot(r.robots, "Robots")}</div></td>
+          <td class="py-4 px-5 text-center"><div class="flex items-center justify-center gap-1.5">${getDot(r.backup, "Backup")} ${getDot(r.security, "Bảo mật")}</div></td>
+          <td class="py-4 px-5 text-xs text-slate-500 font-semibold max-w-[200px] truncate" title="${r.review || ''}">${r.review || ''}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function getDot(status, tooltip) {
+      const s = String(status || "").toUpperCase();
+      if (s === "OK" || s === "PASS") return `<div class="w-3 h-3 rounded-full bg-emerald-500 shadow-[0_0_5px_rgba(16,185,129,0.5)]" title="${tooltip}: Hoạt động tốt"></div>`;
+      if (s === "FAIL" || s === "ERROR") return `<div class="w-3 h-3 rounded-full bg-rose-600 shadow-[0_0_5px_rgba(225,29,72,0.5)] animate-pulse" title="${tooltip}: Đang bị lỗi"></div>`;
+      return `<div class="w-3 h-3 rounded-full bg-slate-300" title="${tooltip}: Không có dữ liệu"></div>`;
+    }
+
+    // Tự động kéo dữ liệu thật khi tải trang
+    window.onload = fetchData;
+  </script>
+</body>
+</html>
