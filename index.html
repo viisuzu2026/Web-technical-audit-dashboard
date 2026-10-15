@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>TÂY BẮC SÀI GÒN - BẢNG ĐIỀU KHIỂN SỨC KHỎE WEBSITE</title>
+  <title>ITB Dashboard - Modern</title>
   
-  <!-- Font Montserrat -->
+  <!-- Font Inter - Chuẩn Modern Dashboard -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   
   <!-- Tailwind CSS & Chart.js -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -19,190 +19,176 @@
     tailwind.config = {
       theme: {
         extend: {
-          fontFamily: {
-            sans: ['Montserrat', 'sans-serif'],
+          fontFamily: { sans: ['Inter', 'sans-serif'] },
+          colors: {
+            brand: { 50: '#fef2f2', 600: '#dc2626', 900: '#7f1d1d' } // Đỏ tinh tế cho nút bấm
           }
         }
       }
     }
   </script>
+  <style>
+    /* Custom Scrollbar cho mượt mà */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #e5e7eb; border-radius: 10px; }
+    ::-webkit-scrollbar-thumb:hover { background: #d1d5db; }
+  </style>
 </head>
-<body class="bg-slate-50 text-slate-800 font-sans min-h-screen">
+<body class="bg-[#f8fafc] text-slate-800 font-sans min-h-screen antialiased selection:bg-brand-600 selection:text-white">
 
-  <!-- Header Sang Trọng -->
-  <header class="relative bg-gradient-to-r from-red-950 via-red-900 to-red-950 py-6 sm:py-8 shadow-2xl overflow-hidden">
-    <!-- Hiệu ứng ánh sáng nền -->
-    <div class="absolute top-[-50%] left-1/4 w-96 h-96 bg-red-500 rounded-full mix-blend-screen filter blur-[120px] opacity-20 pointer-events-none"></div>
-    <div class="absolute bottom-0 left-0 w-full h-[3px] bg-gradient-to-r from-yellow-600 via-yellow-400 to-yellow-600 shadow-[0_0_12px_rgba(250,204,21,0.6)]"></div>
-
-    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
-      
-      <!-- Khối Logo và Tiêu đề -->
-      <div class="flex flex-col sm:flex-row items-start sm:items-center gap-5">
-        <div class="bg-white p-2.5 rounded-xl shadow-[0_8px_20px_rgba(0,0,0,0.3)] border border-white/20 shrink-0 transform transition duration-500 hover:scale-105">
-          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTiYyJ5iX0-1fGJwFekfO0b_CuTjVe2jHVsSVCqyRp0pJIwSqfyer964qAL&s=10" alt="Logo Tây Bắc Sài Gòn" class="h-12 sm:h-14 w-auto object-contain">
+  <!-- TOP NAV BAR (Tinh gọn, viền mỏng) -->
+  <nav class="bg-white border-b border-slate-200 sticky top-0 z-50">
+    <div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-16">
+        <!-- Brand -->
+        <div class="flex items-center gap-4">
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTiYyJ5iX0-1fGJwFekfO0b_CuTjVe2jHVsSVCqyRp0pJIwSqfyer964qAL&s=10" alt="Logo" class="h-8 w-auto object-contain">
+          <div class="h-5 w-[1px] bg-slate-200 hidden sm:block"></div>
+          <h1 class="text-sm font-semibold text-slate-900 hidden sm:block">System Health</h1>
+          <span class="px-2 py-0.5 rounded text-[10px] font-medium bg-slate-100 text-slate-600 border border-slate-200" id="targetUrlText">Đang tải...</span>
         </div>
-        
-        <div class="flex flex-col justify-center">
-          <div class="mb-1.5 flex items-center gap-2">
-            <span class="inline-flex items-center px-3 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-widest bg-red-950/80 text-yellow-400 border border-red-800/80 shadow-sm backdrop-blur-sm">
-              <i class="fa-solid fa-shield-halved mr-1.5 text-yellow-500/80"></i> TÂY BẮC SÀI GÒN
-            </span>
-            <span class="flex h-2.5 w-2.5 relative">
-              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-              <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
-            </span>
-          </div>
-          <h1 class="text-xl sm:text-2xl md:text-[26px] font-extrabold tracking-tight text-white uppercase drop-shadow-md leading-tight mb-1.5">
-            Website Health <span class="text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-yellow-500">Dashboard</span>
-          </h1>
-          <div class="flex items-center gap-2 text-sm text-red-200/80 font-medium" id="targetUrlText">
-            <i class="fa-solid fa-link text-xs opacity-70"></i> Mục tiêu: Đang tải...
-          </div>
+
+        <!-- Actions -->
+        <div class="flex items-center gap-4">
+          <div class="text-xs text-slate-500 font-medium" id="lastUpdatedText">--</div>
+          <button onclick="fetchData()" class="flex items-center gap-2 bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors shadow-sm">
+            <i class="fa-solid fa-rotate-right text-xs"></i> Đồng bộ
+          </button>
         </div>
       </div>
-
-      <!-- Khối Cập nhật và Nút bấm -->
-      <div class="flex flex-col items-start md:items-end shrink-0 w-full md:w-auto border-t border-red-800/50 md:border-t-0 pt-4 md:pt-0 mt-2 md:mt-0">
-        <div id="lastUpdatedText" class="text-[11px] sm:text-xs text-red-200 font-medium mb-3 flex items-center gap-1.5 bg-red-950/40 px-3 py-1.5 rounded-lg border border-red-900/50 shadow-inner">
-          <i class="fa-regular fa-clock text-red-400"></i> Cập nhật: --
-        </div>
-        
-        <button onclick="fetchData()" class="group relative inline-flex items-center justify-center gap-2 w-full md:w-auto px-6 py-2.5 text-sm font-bold text-red-950 bg-gradient-to-b from-yellow-300 to-yellow-500 rounded-lg shadow-[0_4px_15px_rgba(234,179,8,0.25)] hover:shadow-[0_6px_20px_rgba(234,179,8,0.4)] hover:from-yellow-200 hover:to-yellow-400 transition-all duration-300 transform hover:-translate-y-0.5 border border-yellow-200">
-          <i class="fa-solid fa-rotate-right group-hover:rotate-180 transition-transform duration-500"></i> Làm mới dữ liệu
-        </button>
-      </div>
-
     </div>
-  </header>
+  </nav>
 
-  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+  <main class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
 
-    <!-- Cảnh báo khẩn cấp (Alert Banner) -->
-    <div id="alertBanner" class="hidden p-4 rounded-xl border-l-4 shadow-sm flex items-start gap-3">
-      <i id="alertIcon" class="fa-solid fa-triangle-exclamation text-xl mt-0.5"></i>
+    <!-- ALERT BANNER -->
+    <div id="alertBanner" class="hidden rounded-xl p-4 border border-slate-200 bg-white shadow-sm flex items-start gap-3">
+      <div class="mt-0.5" id="alertIconBox"></div>
       <div>
-        <h4 id="alertTitle" class="font-bold text-sm uppercase"></h4>
-        <p id="alertDesc" class="text-sm mt-1 font-medium"></p>
+        <h4 id="alertTitle" class="text-sm font-bold text-slate-900 uppercase tracking-tight"></h4>
+        <p id="alertDesc" class="text-sm text-slate-600 mt-0.5"></p>
       </div>
     </div>
 
-    <!-- Hàng thẻ KPI chỉ số chính -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+    <!-- BENTO GRID: Các ô chỉ số quan trọng -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      
       <!-- Uptime -->
-      <div class="bg-blue-50 rounded-xl p-5 border border-blue-100 shadow-sm relative overflow-hidden group">
-        <div class="absolute -right-4 -top-4 text-blue-100 opacity-50 text-6xl transition-transform group-hover:scale-110"><i class="fa-solid fa-server"></i></div>
-        <div class="text-xs font-bold text-blue-800 uppercase tracking-wider mb-2 relative z-10 flex justify-between items-center">
-          <span>Uptime (7 ngày)</span>
+      <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-[0_1px_2px_rgba(0,0,0,0.02)] flex flex-col justify-between">
+        <div class="flex justify-between items-start mb-4">
+          <span class="text-sm font-medium text-slate-500">Uptime (7D)</span>
+          <div class="w-8 h-8 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center"><i class="fa-solid fa-server text-xs"></i></div>
         </div>
-        <div class="flex items-baseline gap-1 relative z-10">
-          <span class="text-3xl font-extrabold text-blue-600" id="kpiUptime">--</span>
-          <span class="text-sm font-bold text-blue-600">%</span>
+        <div>
+          <div class="flex items-baseline gap-1">
+            <h3 class="text-3xl font-bold text-slate-900 tracking-tight" id="kpiUptime">--</h3>
+            <span class="text-sm font-semibold text-slate-500">%</span>
+          </div>
+          <p class="text-xs text-slate-500 mt-1">Máy chủ hoạt động</p>
         </div>
-        <p class="text-[11px] text-blue-600/80 mt-2 leading-tight relative z-10 font-medium">Trạng thái duy trì hoạt động máy chủ.</p>
       </div>
 
       <!-- TTFB -->
-      <div class="bg-purple-50 rounded-xl p-5 border border-purple-100 shadow-sm relative overflow-hidden group">
-        <div class="absolute -right-4 -top-4 text-purple-100 opacity-50 text-6xl transition-transform group-hover:scale-110"><i class="fa-solid fa-bolt"></i></div>
-        <div class="text-xs font-bold text-purple-800 uppercase tracking-wider mb-2 relative z-10 flex justify-between items-center">
-          <span>Phản hồi TTFB</span>
+      <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-[0_1px_2px_rgba(0,0,0,0.02)] flex flex-col justify-between">
+        <div class="flex justify-between items-start mb-4">
+          <span class="text-sm font-medium text-slate-500">Phản hồi TTFB</span>
+          <div class="w-8 h-8 rounded-full bg-amber-50 text-amber-600 flex items-center justify-center"><i class="fa-solid fa-bolt text-xs"></i></div>
         </div>
-        <div class="flex items-baseline gap-1 relative z-10">
-          <span class="text-3xl font-extrabold text-purple-600" id="kpiTtfb">--</span>
-          <span class="text-sm font-bold text-purple-600">ms</span>
+        <div>
+          <div class="flex items-baseline gap-1">
+            <h3 class="text-3xl font-bold text-slate-900 tracking-tight" id="kpiTtfb">--</h3>
+            <span class="text-sm font-semibold text-slate-500">ms</span>
+          </div>
+          <p class="text-xs text-slate-500 mt-1">Chuẩn &lt; 800ms</p>
         </div>
-        <p class="text-[11px] text-purple-600/80 mt-2 leading-tight relative z-10 font-medium">Chuẩn khuyến nghị tốc độ: &lt; 800ms</p>
       </div>
 
       <!-- SSL -->
-      <div class="bg-emerald-50 rounded-xl p-5 border border-emerald-100 shadow-sm relative overflow-hidden group">
-        <div class="absolute -right-4 -top-4 text-emerald-100 opacity-50 text-6xl transition-transform group-hover:scale-110"><i class="fa-solid fa-lock"></i></div>
-        <div class="text-xs font-bold text-emerald-800 uppercase tracking-wider mb-2 relative z-10 flex justify-between items-center">
-          <span>Hạn chứng chỉ SSL</span>
+      <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-[0_1px_2px_rgba(0,0,0,0.02)] flex flex-col justify-between">
+        <div class="flex justify-between items-start mb-4">
+          <span class="text-sm font-medium text-slate-500">Hạn SSL</span>
+          <div class="w-8 h-8 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center"><i class="fa-solid fa-shield text-xs"></i></div>
         </div>
-        <div class="flex items-baseline gap-1 relative z-10">
-          <span class="text-3xl font-extrabold text-emerald-600" id="kpiSsl">--</span>
-          <span class="text-sm font-bold text-emerald-600">ngày</span>
+        <div>
+          <div class="flex items-baseline gap-1">
+            <h3 class="text-3xl font-bold text-slate-900 tracking-tight" id="kpiSsl">--</h3>
+            <span class="text-sm font-semibold text-slate-500">ngày</span>
+          </div>
+          <p class="text-xs text-slate-500 mt-1">Gia hạn khi &le; 15 ngày</p>
         </div>
-        <p class="text-[11px] text-emerald-600/80 mt-2 leading-tight relative z-10 font-medium">Cần gia hạn khi thời gian &le; 15 ngày</p>
       </div>
 
-      <!-- Trạng thái chức năng -->
-      <div class="bg-slate-100 rounded-xl p-5 border border-slate-200 shadow-sm relative overflow-hidden group">
-        <div class="absolute -right-4 -top-4 text-slate-200 opacity-50 text-6xl transition-transform group-hover:scale-110"><i class="fa-solid fa-shield-halved"></i></div>
-        <div class="text-xs font-bold text-slate-700 uppercase tracking-wider mb-2 relative z-10 flex justify-between items-center">
-          <span>Chức năng & Bảo mật</span>
+      <!-- Tình trạng Form/Call/Chat & Security -->
+      <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-[0_1px_2px_rgba(0,0,0,0.02)] flex flex-col justify-center gap-3">
+        <div class="flex justify-between items-center text-sm">
+          <span class="text-slate-500 font-medium">Chuyển đổi (Form/Call/Chat)</span>
+          <span id="kpiConversion" class="font-bold">--</span>
         </div>
-        <div class="flex items-baseline gap-1 relative z-10 mt-1">
-          <span class="text-xl font-extrabold" id="kpiSecurity">--</span>
+        <div class="h-[1px] bg-slate-100 w-full"></div>
+        <div class="flex justify-between items-center text-sm">
+          <span class="text-slate-500 font-medium">Mã độc & Backup</span>
+          <span id="kpiSecurity" class="font-bold">--</span>
         </div>
-        <p class="text-[11px] text-slate-500 mt-3 leading-tight relative z-10 font-medium" id="kpiSecuritySub">Quét mã độc & Backup tuần</p>
+        <div class="h-[1px] bg-slate-100 w-full"></div>
+        <div class="flex justify-between items-center text-sm">
+          <span class="text-slate-500 font-medium">Tệp SEO (Sitemap/Robots)</span>
+          <span id="kpiSeo" class="font-bold">--</span>
+        </div>
       </div>
+
     </div>
 
-    <!-- Biểu đồ xu hướng -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-      <div class="bg-white rounded-xl shadow-md border border-slate-200 overflow-hidden">
-        <div class="px-6 py-4 border-b border-slate-200 bg-slate-50">
-          <h3 class="text-sm font-bold text-slate-800 flex items-center gap-2">
-            <i class="fa-solid fa-chart-line text-emerald-500"></i> Xu hướng Uptime (%)
-          </h3>
+    <!-- BIỂU ĐỒ -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+      <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-[0_1px_2px_rgba(0,0,0,0.02)]">
+        <div class="flex justify-between items-center mb-6">
+          <h3 class="text-sm font-semibold text-slate-900">Xu hướng Uptime</h3>
         </div>
-        <div class="p-4 h-64">
+        <div class="h-56">
           <canvas id="uptimeChart"></canvas>
         </div>
       </div>
 
-      <div class="bg-white rounded-xl shadow-md border border-slate-200 overflow-hidden">
-        <div class="px-6 py-4 border-b border-slate-200 bg-slate-50">
-          <h3 class="text-sm font-bold text-slate-800 flex items-center gap-2">
-            <i class="fa-solid fa-bolt text-amber-500"></i> Độ trễ máy chủ TTFB (ms)
-          </h3>
+      <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-[0_1px_2px_rgba(0,0,0,0.02)]">
+        <div class="flex justify-between items-center mb-6">
+          <h3 class="text-sm font-semibold text-slate-900">Độ trễ phản hồi (TTFB)</h3>
         </div>
-        <div class="p-4 h-64">
+        <div class="h-56">
           <canvas id="ttfbChart"></canvas>
         </div>
       </div>
     </div>
 
-    <!-- Bảng dữ liệu chi tiết -->
-    <div class="bg-white rounded-xl shadow-md border border-slate-200 overflow-hidden">
-      <div class="px-6 py-4 border-b border-slate-200 bg-slate-50 flex justify-between items-center">
-        <div>
-          <h2 class="text-lg font-bold text-slate-800">Lịch Sử Kiểm Toán Các Tuần</h2>
-          <p class="text-xs text-slate-500 mt-1 font-medium">Dữ liệu đồng bộ trực tiếp từ hệ thống ghi nhận sự cố.</p>
-        </div>
+    <!-- BẢNG DỮ LIỆU -->
+    <div class="bg-white rounded-2xl border border-slate-200 shadow-[0_1px_2px_rgba(0,0,0,0.02)] overflow-hidden">
+      <div class="px-5 py-4 border-b border-slate-100 flex justify-between items-center bg-white">
+        <h2 class="text-sm font-semibold text-slate-900">Lịch sử Audit hàng tuần</h2>
       </div>
       <div class="overflow-x-auto">
         <table class="w-full text-left text-sm text-slate-600">
-          <thead class="bg-slate-100 text-xs uppercase text-slate-700 font-bold border-b border-slate-200">
+          <thead class="bg-slate-50 text-[11px] uppercase tracking-wider text-slate-500 font-semibold border-b border-slate-100">
             <tr>
-              <th class="py-4 px-4">Ngày quét</th>
-              <th class="py-4 px-4">Uptime</th>
-              <th class="py-4 px-4">TTFB</th>
-              <th class="py-4 px-4">Hạn SSL</th>
-              <th class="py-4 px-4">Sitemap</th>
-              <th class="py-4 px-4">Robots</th>
-              <th class="py-4 px-4">Form / Call / Chat</th>
-              <th class="py-4 px-4">Bảo mật</th>
-              <th class="py-4 px-4 max-w-[200px]">Nhận xét</th>
+              <th class="py-3 px-5">Ngày</th>
+              <th class="py-3 px-5">Uptime</th>
+              <th class="py-3 px-5">TTFB</th>
+              <th class="py-3 px-5">SSL</th>
+              <th class="py-3 px-5 text-center">Form / Call / Chat</th>
+              <th class="py-3 px-5 text-center">Sitemap / Robots</th>
+              <th class="py-3 px-5 text-center">Backup & Bảo mật</th>
+              <th class="py-3 px-5">Ghi chú</th>
             </tr>
           </thead>
-          <tbody id="historyTableBody" class="divide-y divide-slate-100 font-medium">
+          <tbody id="historyTableBody" class="divide-y divide-slate-100 bg-white">
             <tr>
-              <td colspan="9" class="text-center py-8 text-slate-400">Đang tải dữ liệu...</td>
+              <td colspan="8" class="text-center py-10 text-slate-400 font-medium">Đang đồng bộ dữ liệu...</td>
             </tr>
           </tbody>
         </table>
       </div>
     </div>
-  </main>
 
-  <footer class="bg-slate-900 text-slate-400 text-center py-8 text-sm mt-12 font-medium">
-    © 2026 ISUZU TÂY BẮC SÀI GÒN <br>
-    <span class="text-xs text-slate-500 mt-1 inline-block">Hệ thống Báo cáo Kỹ thuật & Hạ tầng Định kỳ - Giao diện tối ưu hóa</span>
-  </footer>
+  </main>
 
   <script>
     // ==============================================================
@@ -212,13 +198,14 @@
 
     let uptimeChartInstance = null;
     let ttfbChartInstance = null;
-    Chart.defaults.font.family = "'Montserrat', sans-serif";
+    Chart.defaults.font.family = "'Inter', sans-serif";
+    Chart.defaults.color = '#64748b'; // Muted text for charts
+    Chart.defaults.scale.grid.color = '#f1f5f9'; // Very light grid lines
 
     async function fetchData() {
       try {
         let data = null;
         if (!API_URL || API_URL.includes("DÁN_URL_WEB_APP")) {
-          console.warn("Chưa cấu hình API_URL, sử dụng dữ liệu mô phỏng.");
           data = getMockData();
         } else {
           const res = await fetch(API_URL);
@@ -226,58 +213,64 @@
         }
         renderDashboard(data);
       } catch (err) {
-        console.error("Lỗi tải API:", err);
-        renderDashboard(getMockData()); // Fallback mock data nếu lỗi
+        console.error(err);
+        renderDashboard(getMockData()); 
       }
     }
 
     function renderDashboard(data) {
       if (!data || !data.records || data.records.length === 0) return;
 
-      document.getElementById("targetUrlText").innerHTML = `<i class="fa-solid fa-link text-xs opacity-70"></i> Mục tiêu: <a href="https://${data.targetUrl || "taybacsaigon.com"}" target="_blank" class="text-white hover:text-yellow-400 underline decoration-red-500/50 hover:decoration-yellow-400 transition-all">${data.targetUrl || "taybacsaigon.com"}</a>`;
-      document.getElementById("lastUpdatedText").innerHTML = `<i class="fa-regular fa-clock text-red-400"></i> Cập nhật: ${data.updatedAt || new Date().toLocaleString("vi-VN")}`;
+      document.getElementById("targetUrlText").innerText = data.targetUrl || "taybacsaigon.com";
+      document.getElementById("lastUpdatedText").innerText = "Đã cập nhật lúc " + (data.updatedAt || new Date().toLocaleTimeString("vi-VN"));
 
       const latest = data.latest || data.records[data.records.length - 1];
 
-      // 1. Cập nhật Scorecards
+      // KPI Numbers
       document.getElementById("kpiUptime").innerText = latest.uptime;
       document.getElementById("kpiTtfb").innerText = latest.ttfb;
       document.getElementById("kpiSsl").innerText = latest.sslDays;
 
+      // Grouped Status KPIs
+      const isConvOk = latest.formTest === "OK" && latest.callTest === "OK" && latest.chatTest === "OK";
       const isSecOk = latest.security === "OK" && latest.backup === "OK";
-      const secEl = document.getElementById("kpiSecurity");
-      secEl.innerText = isSecOk ? "An Toàn" : "Cảnh Báo";
-      secEl.className = isSecOk ? "text-xl font-extrabold text-emerald-600" : "text-xl font-extrabold text-rose-600";
+      const isSeoOk = latest.sitemap === "OK" && latest.robots === "OK";
 
-      // 2. Banner cảnh báo chuyên gia
+      document.getElementById("kpiConversion").innerHTML = isConvOk ? `<span class="text-emerald-600"><i class="fa-solid fa-check"></i> Đạt</span>` : `<span class="text-rose-600"><i class="fa-solid fa-xmark"></i> Lỗi</span>`;
+      document.getElementById("kpiSecurity").innerHTML = isSecOk ? `<span class="text-emerald-600"><i class="fa-solid fa-check"></i> An toàn</span>` : `<span class="text-rose-600"><i class="fa-solid fa-xmark"></i> Cảnh báo</span>`;
+      document.getElementById("kpiSeo").innerHTML = isSeoOk ? `<span class="text-emerald-600"><i class="fa-solid fa-check"></i> Ổn định</span>` : `<span class="text-amber-500"><i class="fa-solid fa-triangle-exclamation"></i> Kiểm tra</span>`;
+
+      // Alert Banner
       const banner = document.getElementById("alertBanner");
       const alertTitle = document.getElementById("alertTitle");
       const alertDesc = document.getElementById("alertDesc");
-      const alertIcon = document.getElementById("alertIcon");
+      const alertIconBox = document.getElementById("alertIconBox");
 
       if (latest.review) {
         banner.classList.remove("hidden");
-        let reviewPrefix = latest.review.includes(":") ? latest.review.split(":")[0] : "NHẬN XÉT";
-        let reviewContent = latest.review.includes(":") ? latest.review.substring(latest.review.indexOf(":") + 1) : latest.review;
+        let reviewParts = latest.review.split(":");
+        let title = reviewParts[0];
+        let desc = reviewParts.slice(1).join(":").trim() || title;
 
         if (latest.review.includes("NGUY CẤP")) {
-          banner.className = "p-4 rounded-xl border-l-4 border-rose-500 bg-rose-50 text-rose-800 shadow-sm flex items-start gap-3";
-          alertIcon.className = "fa-solid fa-triangle-exclamation text-xl mt-0.5 text-rose-500";
+          banner.className = "p-4 rounded-xl border border-rose-200 bg-rose-50 flex items-start gap-3";
+          alertIconBox.innerHTML = `<i class="fa-solid fa-circle-exclamation text-rose-600 text-lg"></i>`;
+          alertTitle.className = "text-sm font-bold text-rose-900 uppercase tracking-tight";
         } else if (latest.review.includes("CẦN TỐI ƯU")) {
-          banner.className = "p-4 rounded-xl border-l-4 border-amber-500 bg-amber-50 text-amber-800 shadow-sm flex items-start gap-3";
-          alertIcon.className = "fa-solid fa-circle-exclamation text-xl mt-0.5 text-amber-500";
+          banner.className = "p-4 rounded-xl border border-amber-200 bg-amber-50 flex items-start gap-3";
+          alertIconBox.innerHTML = `<i class="fa-solid fa-triangle-exclamation text-amber-600 text-lg"></i>`;
+          alertTitle.className = "text-sm font-bold text-amber-900 uppercase tracking-tight";
         } else {
-          banner.className = "p-4 rounded-xl border-l-4 border-emerald-500 bg-emerald-50 text-emerald-800 shadow-sm flex items-start gap-3";
-          alertIcon.className = "fa-solid fa-circle-check text-xl mt-0.5 text-emerald-500";
+          banner.className = "p-4 rounded-xl border border-emerald-200 bg-emerald-50 flex items-start gap-3";
+          alertIconBox.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-600 text-lg"></i>`;
+          alertTitle.className = "text-sm font-bold text-emerald-900 uppercase tracking-tight";
         }
-        alertTitle.innerText = reviewPrefix;
-        alertDesc.innerText = reviewContent.trim();
+        alertTitle.innerText = title;
+        alertDesc.innerText = desc;
       }
 
-      // 3. Render Biểu đồ
+      // Render Charts & Table
       renderCharts(data.records);
-
-      // 4. Render Bảng lịch sử
       renderTable(data.records);
     }
 
@@ -286,7 +279,7 @@
       const uptimeData = records.map(r => r.uptime);
       const ttfbData = records.map(r => r.ttfb);
 
-      // Chart Uptime
+      // Clean, thin line charts
       const ctxUptime = document.getElementById('uptimeChart').getContext('2d');
       if (uptimeChartInstance) uptimeChartInstance.destroy();
       uptimeChartInstance = new Chart(ctxUptime, {
@@ -294,31 +287,27 @@
         data: {
           labels: labels,
           datasets: [{
-            label: 'Uptime (%)',
             data: uptimeData,
-            borderColor: '#10b981',
-            backgroundColor: 'rgba(16, 185, 129, 0.1)',
-            fill: true,
-            tension: 0.3,
+            borderColor: '#10b981', // Emerald 500
+            backgroundColor: 'rgba(16, 185, 129, 0.05)',
             borderWidth: 2,
-            pointBackgroundColor: '#10b981',
+            pointRadius: 3,
+            pointBackgroundColor: '#fff',
+            pointBorderColor: '#10b981',
+            fill: true,
+            tension: 0.4 // Smooth curve
           }]
         },
         options: {
-          responsive: true,
-          maintainAspectRatio: false,
+          responsive: true, maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
           scales: {
-            y: { min: 95, max: 100, grid: { borderDash: [5, 5], color: '#e2e8f0' } },
-            x: { grid: { display: false } }
-          },
-          plugins: { 
-            legend: { display: false },
-            tooltip: { titleFont: { family: "'Montserrat', sans-serif" }, bodyFont: { family: "'Montserrat', sans-serif" } }
+            x: { grid: { display: false } },
+            y: { min: 95, max: 100, border: { display: false } }
           }
         }
       });
 
-      // Chart TTFB
       const ctxTtfb = document.getElementById('ttfbChart').getContext('2d');
       if (ttfbChartInstance) ttfbChartInstance.destroy();
       ttfbChartInstance = new Chart(ctxTtfb, {
@@ -326,91 +315,21 @@
         data: {
           labels: labels,
           datasets: [{
-            label: 'TTFB (ms)',
             data: ttfbData,
-            borderColor: '#f59e0b',
-            backgroundColor: 'rgba(245, 158, 11, 0.1)',
-            fill: true,
-            tension: 0.3,
+            borderColor: '#f59e0b', // Amber 500
+            backgroundColor: 'rgba(245, 158, 11, 0.05)',
             borderWidth: 2,
-            pointBackgroundColor: '#f59e0b',
+            pointRadius: 3,
+            pointBackgroundColor: '#fff',
+            pointBorderColor: '#f59e0b',
+            fill: true,
+            tension: 0.4
           }]
         },
         options: {
-          responsive: true,
-          maintainAspectRatio: false,
+          responsive: true, maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
           scales: {
-            y: { beginAtZero: true, grid: { borderDash: [5, 5], color: '#e2e8f0' } },
-            x: { grid: { display: false } }
-          },
-          plugins: { 
-            legend: { display: false },
-            tooltip: { titleFont: { family: "'Montserrat', sans-serif" }, bodyFont: { family: "'Montserrat', sans-serif" } }
+            x: { grid: { display: false } },
+            y: { border: { display: false } }
           }
-        }
-      });
-    }
-
-    function renderTable(records) {
-      const tbody = document.getElementById("historyTableBody");
-      tbody.innerHTML = "";
-
-      // Đảo ngược thứ tự để tuần mới nhất nằm trên cùng
-      const reversed = [...records].reverse();
-
-      reversed.forEach(r => {
-        const tr = document.createElement("tr");
-        tr.className = "hover:bg-slate-50 transition border-b border-slate-100 last:border-0";
-
-        tr.innerHTML = `
-          <td class="py-4 px-4 font-bold text-slate-800">${r.date}</td>
-          <td class="py-4 px-4 font-bold ${r.uptime < 99.9 ? 'text-rose-600' : 'text-emerald-600'}">${r.uptime}%</td>
-          <td class="py-4 px-4 font-semibold ${r.ttfb > 800 ? 'text-rose-600' : 'text-slate-700'}">${r.ttfb} ms</td>
-          <td class="py-4 px-4 font-semibold ${r.sslDays <= 15 ? 'text-rose-600' : 'text-slate-700'}">${r.sslDays} ngày</td>
-          <td class="py-4 px-4">${getBadge(r.sitemap)}</td>
-          <td class="py-4 px-4">${getBadge(r.robots)}</td>
-          <td class="py-4 px-4 flex items-center gap-1.5 mt-2">
-            <span title="Form báo giá">${getMiniBadge(r.formTest)}</span>
-            <span title="Nút Gọi">${getMiniBadge(r.callTest)}</span>
-            <span title="Nút Chat">${getMiniBadge(r.chatTest)}</span>
-          </td>
-          <td class="py-4 px-4">${getBadge(r.security)}</td>
-          <td class="py-4 px-4 text-xs max-w-[200px] truncate" title="${r.review || ''}">${r.review || '--'}</td>
-        `;
-        tbody.appendChild(tr);
-      });
-    }
-
-    function getBadge(status) {
-      const s = String(status || "").toUpperCase();
-      if (s === "OK" || s === "PASS") return `<span class="px-2.5 py-1 rounded-md text-[10px] font-bold tracking-wider bg-emerald-100 text-emerald-700 uppercase"><i class="fa-solid fa-check mr-1"></i> OK</span>`;
-      if (s === "FAIL" || s === "ERROR") return `<span class="px-2.5 py-1 rounded-md text-[10px] font-bold tracking-wider bg-rose-100 text-rose-700 uppercase"><i class="fa-solid fa-xmark mr-1"></i> LỖI</span>`;
-      return `<span class="px-2.5 py-1 rounded-md text-[10px] font-bold tracking-wider bg-slate-100 text-slate-600 uppercase">${status || '--'}</span>`;
-    }
-
-    function getMiniBadge(status) {
-      const s = String(status || "").toUpperCase();
-      if (s === "OK" || s === "PASS") return `<span class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-emerald-100 text-emerald-600 border border-emerald-200" title="Hoạt động tốt"><i class="fa-solid fa-check text-[10px]"></i></span>`;
-      if (s === "FAIL" || s === "ERROR") return `<span class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-rose-100 text-rose-600 border border-rose-200" title="Bị lỗi"><i class="fa-solid fa-xmark text-[10px]"></i></span>`;
-      return `<span class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-slate-100 text-slate-400 border border-slate-200"><i class="fa-solid fa-minus text-[10px]"></i></span>`;
-    }
-
-    // Dữ liệu mẫu (sẽ bị ghi đè khi API trả về data thật)
-    function getMockData() {
-      return {
-        targetUrl: "taybacsaigon.com",
-        updatedAt: "15/10/2026, 14:41:00",
-        records: [
-          { date: "19/09/2026", uptime: 100, ttfb: 2437, sslDays: 87, sitemap: "Error", robots: "FAIL", formTest: "FAIL", callTest: "FAIL", chatTest: "FAIL", backup: "FAIL", security: "FAIL", review: "🚨 NGUY CẤP: Bảo mật cảnh báo mã độc, Lỗi Form Báo giá" },
-          { date: "26/09/2026", uptime: 100, ttfb: 2993, sslDays: 80, sitemap: "Error", robots: "OK", formTest: "FAIL", callTest: "FAIL", chatTest: "FAIL", backup: "FAIL", security: "FAIL", review: "🚨 NGUY CẤP: Bảo mật cảnh báo mã độc, Backup tuần bị lỗi" },
-          { date: "03/10/2026", uptime: 100, ttfb: 2880, sslDays: 73, sitemap: "Error", robots: "OK", formTest: "OK", callTest: "OK", chatTest: "OK", backup: "OK", security: "OK", review: "🚨 NGUY CẤP: Lỗi Sitemap | Lưu ý: Có 583 link 404" },
-          { date: "10/10/2026", uptime: 100, ttfb: 7815, sslDays: 66, sitemap: "Error", robots: "OK", formTest: "OK", callTest: "OK", chatTest: "OK", backup: "OK", security: "OK", review: "🚨 NGUY CẤP: Lỗi Sitemap | Lưu ý: TTFB phản hồi quá chậm (7815ms)" }
-        ]
-      };
-    }
-
-    // Khởi chạy
-    window.onload = fetchData;
-  </script>
-</body>
-</html>
