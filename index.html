@@ -1,293 +1,84 @@
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>TÂY BẮC SÀI GÒN - BẢNG ĐIỀU KHIỂN SỨC KHỎE WEBSITE</title>
-  
-  <!-- Font Montserrat mang lại cảm giác mạnh mẽ, sang trọng -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: { sans: ['Montserrat', 'sans-serif'] },
-        }
-      }
-    }
-  </script>
-</head>
-<body class="bg-slate-50 text-slate-800 font-sans min-h-screen antialiased">
-
-  <!-- HEADER SANG TRỌNG (ĐỎ - VÀNG - TRẮNG) -->
-  <header class="relative bg-gradient-to-r from-red-950 via-red-900 to-red-950 py-6 sm:py-8 shadow-xl overflow-hidden border-b-4 border-yellow-500">
-    <!-- Hiệu ứng ánh sáng nền -->
-    <div class="absolute top-[-50%] left-1/4 w-96 h-96 bg-red-500 rounded-full mix-blend-screen filter blur-[120px] opacity-20 pointer-events-none"></div>
-
-    <div class="relative max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
-      
-      <!-- Khối Logo và Tiêu đề -->
-      <div class="flex flex-col sm:flex-row items-start sm:items-center gap-5">
-        <div class="bg-white p-2.5 rounded-xl shadow-[0_8px_20px_rgba(0,0,0,0.3)] border border-white/20 shrink-0 transform transition duration-500 hover:scale-105">
-          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTiYyJ5iX0-1fGJwFekfO0b_CuTjVe2jHVsSVCqyRp0pJIwSqfyer964qAL&s=10" alt="Logo Tây Bắc Sài Gòn" class="h-12 w-auto object-contain">
-        </div>
-        
-        <div class="flex flex-col justify-center">
-          <div class="mb-1 flex items-center gap-2">
-            <span class="inline-flex items-center px-2.5 py-0.5 rounded-sm text-[10px] font-extrabold uppercase tracking-widest bg-red-950/80 text-yellow-400 border border-yellow-500/30">
-              <i class="fa-solid fa-shield-halved mr-1.5 text-yellow-500"></i> ISUZU TÂY BẮC SÀI GÒN
-            </span>
-          </div>
-          <h1 class="text-xl sm:text-2xl font-extrabold tracking-tight text-white uppercase drop-shadow-md leading-tight mt-1">
-            System Health <span class="text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-yellow-500">Dashboard</span>
-          </h1>
-          <div class="flex items-center gap-2 text-sm text-red-100 mt-1 font-medium" id="targetUrlText">
-            <i class="fa-solid fa-link text-xs opacity-70"></i> Mục tiêu: Đang tải...
-          </div>
-        </div>
-      </div>
-
-      <!-- Khối Cập nhật và Nút bấm -->
-      <div class="flex flex-col items-start md:items-end shrink-0 w-full md:w-auto">
-        <div id="lastUpdatedText" class="text-xs text-red-200 font-medium mb-3 flex items-center gap-1.5 bg-red-950/40 px-3 py-1.5 rounded border border-red-800 shadow-inner">
-          <i class="fa-regular fa-clock text-yellow-400"></i> Cập nhật: --
-        </div>
-        
-        <button onclick="fetchData()" class="group relative inline-flex items-center justify-center gap-2 px-6 py-2.5 text-sm font-bold text-red-950 bg-gradient-to-b from-yellow-300 to-yellow-500 rounded shadow-[0_4px_15px_rgba(234,179,8,0.25)] hover:from-yellow-400 hover:to-yellow-600 transition-all duration-300 transform hover:-translate-y-0.5 border border-yellow-200 uppercase tracking-wide">
-          <i class="fa-solid fa-rotate-right group-hover:rotate-180 transition-transform duration-500"></i> Đồng bộ ngay
-        </button>
-      </div>
-
-    </div>
-  </header>
-
-  <main class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
-
-    <!-- ALERT BANNER -->
-    <div id="alertBanner" class="hidden rounded-lg p-4 border shadow-sm flex items-start gap-3">
-      <div class="mt-0.5" id="alertIconBox"></div>
-      <div>
-        <h4 id="alertTitle" class="text-sm font-bold uppercase tracking-tight"></h4>
-        <p id="alertDesc" class="text-sm mt-0.5 font-medium"></p>
-      </div>
-    </div>
-
-    <!-- BENTO GRID: Các ô chỉ số quan trọng (Thêm viền top màu đỏ để ăn nhập thương hiệu) -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
-      
-      <!-- Uptime -->
-      <div class="bg-white p-5 rounded-xl border-t-4 border-t-red-700 border-x border-b border-slate-200 shadow-sm flex flex-col justify-between relative overflow-hidden group">
-        <div class="absolute -right-4 -bottom-4 text-slate-50 opacity-50 text-7xl transition-transform group-hover:scale-110 z-0"><i class="fa-solid fa-server"></i></div>
-        <div class="flex justify-between items-start mb-4 relative z-10">
-          <span class="text-sm font-bold text-slate-700 uppercase tracking-wider">Uptime (7D)</span>
-        </div>
-        <div class="relative z-10">
-          <div class="flex items-baseline gap-1">
-            <h3 class="text-4xl font-extrabold tracking-tight" id="kpiUptime">--</h3>
-            <span class="text-sm font-bold" id="kpiUptimeUnit">%</span>
-          </div>
-          <p class="text-xs mt-1.5 font-semibold" id="kpiUptimeSub">Đang đánh giá...</p>
-        </div>
-      </div>
-
-      <!-- TTFB -->
-      <div class="bg-white p-5 rounded-xl border-t-4 border-t-red-700 border-x border-b border-slate-200 shadow-sm flex flex-col justify-between relative overflow-hidden group">
-        <div class="absolute -right-4 -bottom-4 text-slate-50 opacity-50 text-7xl transition-transform group-hover:scale-110 z-0"><i class="fa-solid fa-bolt"></i></div>
-        <div class="flex justify-between items-start mb-4 relative z-10">
-          <span class="text-sm font-bold text-slate-700 uppercase tracking-wider">Độ trễ TTFB</span>
-        </div>
-        <div class="relative z-10">
-          <div class="flex items-baseline gap-1">
-            <h3 class="text-4xl font-extrabold tracking-tight" id="kpiTtfb">--</h3>
-            <span class="text-sm font-bold" id="kpiTtfbUnit">ms</span>
-          </div>
-          <p class="text-xs mt-1.5 font-semibold" id="kpiTtfbSub">Đang đánh giá...</p>
-        </div>
-      </div>
-
-      <!-- SSL -->
-      <div class="bg-white p-5 rounded-xl border-t-4 border-t-red-700 border-x border-b border-slate-200 shadow-sm flex flex-col justify-between relative overflow-hidden group">
-        <div class="absolute -right-4 -bottom-4 text-slate-50 opacity-50 text-7xl transition-transform group-hover:scale-110 z-0"><i class="fa-solid fa-shield-halved"></i></div>
-        <div class="flex justify-between items-start mb-4 relative z-10">
-          <span class="text-sm font-bold text-slate-700 uppercase tracking-wider">Hạn SSL</span>
-        </div>
-        <div class="relative z-10">
-          <div class="flex items-baseline gap-1">
-            <h3 class="text-4xl font-extrabold tracking-tight" id="kpiSsl">--</h3>
-            <span class="text-sm font-bold" id="kpiSslUnit">ngày</span>
-          </div>
-          <p class="text-xs mt-1.5 font-semibold" id="kpiSslSub">Đang đánh giá...</p>
-        </div>
-      </div>
-
-      <!-- Tình trạng Chức năng -->
-      <div class="bg-white p-5 rounded-xl border-t-4 border-t-yellow-500 border-x border-b border-slate-200 shadow-sm flex flex-col justify-center gap-3">
-        <div class="flex justify-between items-center text-sm font-semibold">
-          <span class="text-slate-600">Form / Call / Chat</span>
-          <span id="kpiConversion" class="font-bold">--</span>
-        </div>
-        <div class="h-[1px] bg-slate-100 w-full"></div>
-        <div class="flex justify-between items-center text-sm font-semibold">
-          <span class="text-slate-600">Mã độc & Backup</span>
-          <span id="kpiSecurity" class="font-bold">--</span>
-        </div>
-        <div class="h-[1px] bg-slate-100 w-full"></div>
-        <div class="flex justify-between items-center text-sm font-semibold">
-          <span class="text-slate-600">Sitemap & Robots</span>
-          <span id="kpiSeo" class="font-bold">--</span>
-        </div>
-      </div>
-
-    </div>
-
-    <!-- BIỂU ĐỒ -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
-      <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
-        <h3 class="text-sm font-bold text-slate-800 uppercase tracking-wider mb-6 flex items-center gap-2">
-          <i class="fa-solid fa-chart-line text-red-700"></i> Xu hướng Uptime
-        </h3>
-        <div class="h-60"><canvas id="uptimeChart"></canvas></div>
-      </div>
-      <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
-        <h3 class="text-sm font-bold text-slate-800 uppercase tracking-wider mb-6 flex items-center gap-2">
-          <i class="fa-solid fa-chart-area text-yellow-500"></i> Biến động TTFB
-        </h3>
-        <div class="h-60"><canvas id="ttfbChart"></canvas></div>
-      </div>
-    </div>
-
-    <!-- BẢNG DỮ LIỆU (Mang tone đỏ) -->
-    <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
-      <div class="px-5 py-4 border-b border-slate-200 bg-white">
-        <h2 class="text-sm font-bold text-slate-800 uppercase tracking-wider"><i class="fa-solid fa-table-list text-red-700 mr-2"></i> Lịch sử Audit Hệ Thống</h2>
-      </div>
-      <div class="overflow-x-auto">
-        <table class="w-full text-left text-sm text-slate-700">
-          <thead class="bg-red-900 text-white text-[11px] uppercase tracking-wider font-bold">
-            <tr>
-              <th class="py-4 px-5">Ngày Audit</th>
-              <th class="py-4 px-5">Uptime</th>
-              <th class="py-4 px-5">TTFB</th>
-              <th class="py-4 px-5">SSL</th>
-              <th class="py-4 px-5 text-center">Chuyển đổi</th>
-              <th class="py-4 px-5 text-center">Tệp SEO</th>
-              <th class="py-4 px-5 text-center">Bảo mật</th>
-            </tr>
-          </thead>
-          <tbody id="historyTableBody" class="divide-y divide-slate-100 bg-white font-medium">
-            <tr><td colspan="7" class="text-center py-10 text-slate-400">Đang đồng bộ dữ liệu từ hệ thống...</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-  </main>
-
-  <script>
-    // Link API chính thức của bạn
+<script>
+    // Đã thay bằng link thật của Tây Bắc Sài Gòn
     const API_URL = "https://script.google.com/macros/s/AKfycbydvFv9sD16Udwwk6GN4mKUO2_AzdYPPCZCgKzOZYN0XU9_po5WkM7ON6JXlOSEdcNbMQ/exec";
 
     let uptimeChartInstance = null;
     let ttfbChartInstance = null;
-    Chart.defaults.font.family = "'Montserrat', sans-serif";
-    Chart.defaults.font.weight = '600';
+    Chart.defaults.font.family = "'Inter', sans-serif";
 
     async function fetchData() {
       try {
-        const res = await fetch(API_URL);
-        const data = await res.json();
+        let data = null;
+        if (!API_URL || API_URL.includes("DÁN_URL_WEB_APP")) {
+          data = getMockData();
+        } else {
+          const res = await fetch(API_URL);
+          data = await res.json();
+        }
         renderDashboard(data);
       } catch (err) {
         console.error(err);
-        document.getElementById("historyTableBody").innerHTML = `<tr><td colspan="7" class="text-center py-10 text-rose-600 font-bold">Lỗi kết nối dữ liệu. Vui lòng thử lại sau.</td></tr>`;
+        renderDashboard(getMockData()); 
       }
     }
 
     function renderDashboard(data) {
       if (!data || !data.records || data.records.length === 0) return;
 
-      document.getElementById("targetUrlText").innerText = "Website: " + (data.targetUrl || "taybacsaigon.com");
-      document.getElementById("lastUpdatedText").innerHTML = `<i class="fa-regular fa-clock text-yellow-400"></i> Cập nhật: ${data.updatedAt || new Date().toLocaleTimeString("vi-VN")}`;
+      document.getElementById("targetUrlText").innerText = data.targetUrl || "taybacsaigon.com";
+      document.getElementById("lastUpdatedText").innerText = "Đã cập nhật lúc " + (data.updatedAt || new Date().toLocaleTimeString("vi-VN"));
 
       const latest = data.latest || data.records[data.records.length - 1];
 
-      // 1. Logic Uptime (>= 99.9% là Tốt - Đổi màu Xanh/Đỏ)
+      // 1. Logic Uptime (>= 99.9% là Tốt)
       const uVal = parseFloat(latest.uptime);
       document.getElementById("kpiUptime").innerText = uVal;
       if (uVal >= 99.9) {
-        document.getElementById("kpiUptime").className = "text-4xl font-extrabold tracking-tight text-emerald-600";
-        document.getElementById("kpiUptimeUnit").className = "text-sm font-bold text-emerald-600";
-        document.getElementById("kpiUptimeSub").innerHTML = '<span class="text-emerald-600"><i class="fa-solid fa-circle-check text-[10px] mr-1"></i>Hoạt động hoàn hảo</span>';
+        document.getElementById("kpiUptime").className = "text-3xl font-bold tracking-tight text-emerald-600";
+        document.getElementById("kpiUptimeUnit").className = "text-sm font-semibold text-emerald-600";
+        document.getElementById("kpiUptimeSub").innerHTML = '<span class="text-emerald-600 font-medium"><i class="fa-solid fa-circle-check text-[10px] mr-1"></i>Hoạt động Tốt</span>';
       } else {
-        document.getElementById("kpiUptime").className = "text-4xl font-extrabold tracking-tight text-rose-600";
-        document.getElementById("kpiUptimeUnit").className = "text-sm font-bold text-rose-600";
-        document.getElementById("kpiUptimeSub").innerHTML = '<span class="text-rose-600"><i class="fa-solid fa-circle-exclamation text-[10px] mr-1"></i>Có gián đoạn mạng</span>';
+        document.getElementById("kpiUptime").className = "text-3xl font-bold tracking-tight text-rose-600";
+        document.getElementById("kpiUptimeUnit").className = "text-sm font-semibold text-rose-600";
+        document.getElementById("kpiUptimeSub").innerHTML = '<span class="text-rose-600 font-medium"><i class="fa-solid fa-circle-exclamation text-[10px] mr-1"></i>Không tốt</span>';
       }
 
       // 2. Logic TTFB (<= 800ms là Tốt)
       const tVal = parseFloat(latest.ttfb);
       document.getElementById("kpiTtfb").innerText = tVal;
       if (tVal <= 800) {
-        document.getElementById("kpiTtfb").className = "text-4xl font-extrabold tracking-tight text-emerald-600";
-        document.getElementById("kpiTtfbUnit").className = "text-sm font-bold text-emerald-600";
-        document.getElementById("kpiTtfbSub").innerHTML = '<span class="text-emerald-600"><i class="fa-solid fa-circle-check text-[10px] mr-1"></i>Tốc độ phản hồi đạt chuẩn</span>';
+        document.getElementById("kpiTtfb").className = "text-3xl font-bold tracking-tight text-emerald-600";
+        document.getElementById("kpiTtfbUnit").className = "text-sm font-semibold text-emerald-600";
+        document.getElementById("kpiTtfbSub").innerHTML = '<span class="text-emerald-600 font-medium"><i class="fa-solid fa-circle-check text-[10px] mr-1"></i>Tốc độ Tốt</span>';
       } else {
-        document.getElementById("kpiTtfb").className = "text-4xl font-extrabold tracking-tight text-rose-600";
-        document.getElementById("kpiTtfbUnit").className = "text-sm font-bold text-rose-600";
-        document.getElementById("kpiTtfbSub").innerHTML = '<span class="text-rose-600"><i class="fa-solid fa-arrow-trend-up text-[10px] mr-1"></i>Phản hồi máy chủ chậm</span>';
+        document.getElementById("kpiTtfb").className = "text-3xl font-bold tracking-tight text-rose-600";
+        document.getElementById("kpiTtfbUnit").className = "text-sm font-semibold text-rose-600";
+        document.getElementById("kpiTtfbSub").innerHTML = '<span class="text-rose-600 font-medium"><i class="fa-solid fa-arrow-trend-up text-[10px] mr-1"></i>Phản hồi chậm</span>';
       }
 
       // 3. Logic SSL (> 15 ngày là Tốt)
       const sVal = parseInt(latest.sslDays);
       document.getElementById("kpiSsl").innerText = sVal;
       if (sVal > 15) {
-        document.getElementById("kpiSsl").className = "text-4xl font-extrabold tracking-tight text-emerald-600";
-        document.getElementById("kpiSslUnit").className = "text-sm font-bold text-emerald-600";
-        document.getElementById("kpiSslSub").innerHTML = '<span class="text-emerald-600"><i class="fa-solid fa-circle-check text-[10px] mr-1"></i>Bảo mật an toàn</span>';
+        document.getElementById("kpiSsl").className = "text-3xl font-bold tracking-tight text-emerald-600";
+        document.getElementById("kpiSslUnit").className = "text-sm font-semibold text-emerald-600";
+        document.getElementById("kpiSslSub").innerHTML = '<span class="text-emerald-600 font-medium"><i class="fa-solid fa-circle-check text-[10px] mr-1"></i>An toàn</span>';
       } else {
-        document.getElementById("kpiSsl").className = "text-4xl font-extrabold tracking-tight text-rose-600";
-        document.getElementById("kpiSslUnit").className = "text-sm font-bold text-rose-600";
-        document.getElementById("kpiSslSub").innerHTML = '<span class="text-rose-600"><i class="fa-solid fa-clock text-[10px] mr-1"></i>Cần gia hạn gấp</span>';
+        document.getElementById("kpiSsl").className = "text-3xl font-bold tracking-tight text-rose-600";
+        document.getElementById("kpiSslUnit").className = "text-sm font-semibold text-rose-600";
+        document.getElementById("kpiSslSub").innerHTML = '<span class="text-rose-600 font-medium"><i class="fa-solid fa-clock text-[10px] mr-1"></i>Sắp hết hạn</span>';
       }
 
-      // Nhóm chức năng (Form/Sec/Seo)
-      const isConvOk = latest.formTest === "OK" && latest.callTest === "OK" && latest.chatTest === "OK";
+      // Grouped Status KPIs
+      const isConvOk = latest.formTest === "OK" && latest.callTest === "OK";
       const isSecOk = latest.security === "OK" && latest.backup === "OK";
       const isSeoOk = latest.sitemap === "OK" && latest.robots === "OK";
 
       document.getElementById("kpiConversion").innerHTML = isConvOk ? `<span class="text-emerald-600"><i class="fa-solid fa-check"></i> Đạt</span>` : `<span class="text-rose-600"><i class="fa-solid fa-xmark"></i> Lỗi</span>`;
-      document.getElementById("kpiSecurity").innerHTML = isSecOk ? `<span class="text-emerald-600"><i class="fa-solid fa-check"></i> An toàn</span>` : `<span class="text-rose-600"><i class="fa-solid fa-xmark"></i> Cảnh báo</span>`;
+      document.getElementById("kpiSecurity").innerHTML = isSecOk ? `<span class="text-emerald-600"><i class="fa-solid fa-check"></i> An toàn</span>` : `<span class="text-rose-600"><i class="fa-solid fa-xmark"></i> Lỗi</span>`;
       document.getElementById("kpiSeo").innerHTML = isSeoOk ? `<span class="text-emerald-600"><i class="fa-solid fa-check"></i> Ổn định</span>` : `<span class="text-rose-600"><i class="fa-solid fa-xmark"></i> Lỗi</span>`;
 
-      // Cảnh báo chuyên gia (Alert Banner)
-      const banner = document.getElementById("alertBanner");
-      if (latest.review) {
-        banner.classList.remove("hidden");
-        let reviewParts = latest.review.split(":");
-        let title = reviewParts[0];
-        let desc = reviewParts.slice(1).join(":").trim() || title;
-
-        if (latest.review.includes("NGUY CẤP")) {
-          banner.className = "p-4 rounded-lg border-l-4 border-l-rose-600 bg-rose-50 text-rose-900 shadow-sm flex items-start gap-3";
-          document.getElementById("alertIconBox").innerHTML = `<i class="fa-solid fa-triangle-exclamation text-rose-600 text-lg"></i>`;
-        } else if (latest.review.includes("CẦN TỐI ƯU")) {
-          banner.className = "p-4 rounded-lg border-l-4 border-l-yellow-500 bg-yellow-50 text-yellow-900 shadow-sm flex items-start gap-3";
-          document.getElementById("alertIconBox").innerHTML = `<i class="fa-solid fa-circle-exclamation text-yellow-600 text-lg"></i>`;
-        } else {
-          banner.className = "p-4 rounded-lg border-l-4 border-l-emerald-500 bg-emerald-50 text-emerald-900 shadow-sm flex items-start gap-3";
-          document.getElementById("alertIconBox").innerHTML = `<i class="fa-solid fa-circle-check text-emerald-600 text-lg"></i>`;
-        }
-        document.getElementById("alertTitle").innerText = title;
-        document.getElementById("alertDesc").innerText = desc;
-      }
-
+      // Render Charts & Table
       renderCharts(data.records);
       renderTable(data.records);
     }
@@ -304,8 +95,8 @@
         data: {
           labels: labels,
           datasets: [{
-            data: uptimeData, borderColor: '#b91c1c', backgroundColor: 'rgba(185, 28, 28, 0.05)',
-            borderWidth: 3, pointRadius: 4, pointBackgroundColor: '#fff', pointBorderColor: '#b91c1c', fill: true, tension: 0.3
+            data: uptimeData, borderColor: '#10b981', backgroundColor: 'rgba(16, 185, 129, 0.05)',
+            borderWidth: 2, pointRadius: 3, fill: true, tension: 0.4
           }]
         },
         options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { grid: { display: false } } } }
@@ -318,8 +109,8 @@
         data: {
           labels: labels,
           datasets: [{
-            data: ttfbData, borderColor: '#eab308', backgroundColor: 'rgba(234, 179, 8, 0.05)',
-            borderWidth: 3, pointRadius: 4, pointBackgroundColor: '#fff', pointBorderColor: '#eab308', fill: true, tension: 0.3
+            data: ttfbData, borderColor: '#f59e0b', backgroundColor: 'rgba(245, 158, 11, 0.05)',
+            borderWidth: 2, pointRadius: 3, fill: true, tension: 0.4
           }]
         },
         options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { grid: { display: false } } } }
@@ -333,13 +124,13 @@
 
       reversed.forEach(r => {
         const tr = document.createElement("tr");
-        tr.className = "hover:bg-red-50/50 transition-colors border-b border-slate-100 last:border-0";
+        tr.className = "hover:bg-slate-50 transition-colors";
         tr.innerHTML = `
-          <td class="py-4 px-5 font-bold text-slate-900">${r.date}</td>
-          <td class="py-4 px-5 font-bold ${r.uptime < 99.9 ? 'text-rose-600' : 'text-emerald-600'}">${r.uptime}%</td>
-          <td class="py-4 px-5 font-bold ${r.ttfb > 800 ? 'text-rose-600' : 'text-slate-700'}">${r.ttfb} <span class="text-xs font-medium">ms</span></td>
-          <td class="py-4 px-5 font-bold ${r.sslDays <= 15 ? 'text-rose-600' : 'text-slate-700'}">${r.sslDays} <span class="text-xs font-medium">ngày</span></td>
-          <td class="py-4 px-5 text-center"><div class="flex items-center justify-center gap-1.5">${getDot(r.formTest, "Form")} ${getDot(r.callTest, "Call")} ${getDot(r.chatTest, "Chat")}</div></td>
+          <td class="py-4 px-5 text-slate-900 font-medium">${r.date}</td>
+          <td class="py-4 px-5 font-semibold ${r.uptime < 99.9 ? 'text-rose-600' : 'text-slate-900'}">${r.uptime}%</td>
+          <td class="py-4 px-5 text-slate-600">${r.ttfb} <span class="text-xs">ms</span></td>
+          <td class="py-4 px-5 text-slate-600">${r.sslDays} <span class="text-xs">ngày</span></td>
+          <td class="py-4 px-5 text-center"><div class="flex items-center justify-center gap-1.5">${getDot(r.formTest, "Form")} ${getDot(r.callTest, "Call")}</div></td>
           <td class="py-4 px-5 text-center"><div class="flex items-center justify-center gap-1.5">${getDot(r.sitemap, "Sitemap")} ${getDot(r.robots, "Robots")}</div></td>
           <td class="py-4 px-5 text-center"><div class="flex items-center justify-center gap-1.5">${getDot(r.backup, "Backup")} ${getDot(r.security, "Bảo mật")}</div></td>
         `;
@@ -349,12 +140,10 @@
 
     function getDot(status, tooltip) {
       const s = String(status || "").toUpperCase();
-      if (s === "OK" || s === "PASS") return `<div class="w-3 h-3 rounded-full bg-emerald-500 shadow-[0_0_5px_rgba(16,185,129,0.5)]" title="${tooltip}: Hoạt động tốt"></div>`;
-      if (s === "FAIL" || s === "ERROR") return `<div class="w-3 h-3 rounded-full bg-rose-600 shadow-[0_0_5px_rgba(225,29,72,0.5)] animate-pulse" title="${tooltip}: Đang bị lỗi"></div>`;
-      return `<div class="w-3 h-3 rounded-full bg-slate-300" title="${tooltip}: Trống"></div>`;
+      if (s === "OK" || s === "PASS") return `<div class="w-2.5 h-2.5 rounded-full bg-emerald-500 ring-4 ring-emerald-50" title="${tooltip}: Tốt"></div>`;
+      if (s === "FAIL" || s === "ERROR") return `<div class="w-2.5 h-2.5 rounded-full bg-rose-500 ring-4 ring-rose-50" title="${tooltip}: Lỗi"></div>`;
+      return `<div class="w-2.5 h-2.5 rounded-full bg-slate-300 ring-4 ring-slate-50"></div>`;
     }
 
     window.onload = fetchData;
   </script>
-</body>
-</html>
